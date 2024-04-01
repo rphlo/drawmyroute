@@ -253,8 +253,11 @@ const RouteHeader = (props) => {
             <h2>
               <div style={{ paddingLeft: "5px" }}>
                 <Link to={"/athletes/" + props.athlete.username}>
-                  {capitalizeFirstLetter(props.athlete.first_name)}{" "}
-                  {capitalizeFirstLetter(props.athlete.last_name)}
+                  {(props.athlete.first_name && props.athlete.last_name ?
+            capitalizeFirstLetter(props.athlete.first_name) +
+            " " +
+            capitalizeFirstLetter(props.athlete.last_name) : props.athlete.username
+            )}
                 </Link>
                 <div style={{ marginTop: "-10px" }}>
                   <small style={{ fontSize: "0.5em" }}>
