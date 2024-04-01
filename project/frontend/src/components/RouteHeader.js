@@ -214,10 +214,11 @@ const RouteHeader = (props) => {
         <title>
           {props.name +
             " by " +
+            (props.athlete.first_name && props.athlete.last_name ?
             capitalizeFirstLetter(props.athlete.first_name) +
             " " +
-            capitalizeFirstLetter(props.athlete.last_name) +
-            " | Mapdump.com"}{" "}
+            capitalizeFirstLetter(props.athlete.last_name) : props.athlete.username
+            )  + " | Mapdump.com"}{" "}
         </title>
       </Helmet>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
