@@ -214,11 +214,12 @@ const RouteHeader = (props) => {
         <title>
           {props.name +
             " by " +
-            (props.athlete.first_name && props.athlete.last_name ?
-            capitalizeFirstLetter(props.athlete.first_name) +
-            " " +
-            capitalizeFirstLetter(props.athlete.last_name) : props.athlete.username
-            )  + " | Mapdump.com"}{" "}
+            (props.athlete.first_name && props.athlete.last_name
+              ? capitalizeFirstLetter(props.athlete.first_name) +
+                " " +
+                capitalizeFirstLetter(props.athlete.last_name)
+              : props.athlete.username) +
+            " | Mapdump.com"}{" "}
         </title>
       </Helmet>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -253,11 +254,11 @@ const RouteHeader = (props) => {
             <h2>
               <div style={{ paddingLeft: "5px" }}>
                 <Link to={"/athletes/" + props.athlete.username}>
-                  {(props.athlete.first_name && props.athlete.last_name ?
-            capitalizeFirstLetter(props.athlete.first_name) +
-            " " +
-            capitalizeFirstLetter(props.athlete.last_name) : props.athlete.username
-            )}
+                  {props.athlete.first_name && props.athlete.last_name
+                    ? capitalizeFirstLetter(props.athlete.first_name) +
+                      " " +
+                      capitalizeFirstLetter(props.athlete.last_name)
+                    : props.athlete.username}
                 </Link>
                 <div style={{ marginTop: "-10px" }}>
                   <small style={{ fontSize: "0.5em" }}>
