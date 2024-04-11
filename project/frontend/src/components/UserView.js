@@ -189,9 +189,11 @@ const UserView = ({ match, history }) => {
         <div className="container main-container">
           <Helmet>
             <title>
-              {(data.first_name && data.last_name ? capitalizeFirstLetter(data.first_name) +
-                " " +
-                capitalizeFirstLetter(data.last_name) : data.username) +
+              {(data.first_name && data.last_name
+                ? capitalizeFirstLetter(data.first_name) +
+                  " " +
+                  capitalizeFirstLetter(data.last_name)
+                : data.username) +
                 " Maps" +
                 (match.params.date
                   ? " on " +
@@ -217,9 +219,11 @@ const UserView = ({ match, history }) => {
             <div>
               <h2>
                 <Link to={`/athletes/${data.username}`}>
-                  {(data.first_name && data.last_name ? capitalizeFirstLetter(data.first_name) +
-                " " +
-                capitalizeFirstLetter(data.last_name) : data.username)}
+                  {data.first_name && data.last_name
+                    ? capitalizeFirstLetter(data.first_name) +
+                      " " +
+                      capitalizeFirstLetter(data.last_name)
+                    : data.username}
                 </Link>{" "}
                 <a
                   href={
@@ -382,9 +386,11 @@ const UserView = ({ match, history }) => {
                                   style={{ zIndex: 2, position: "relative" }}
                                   to={"/athletes/" + data.username}
                                 >
-                                  {(data.first_name && data.last_name ? capitalizeFirstLetter(data.first_name) +
-                " " +
-                capitalizeFirstLetter(data.last_name) : data.username)}
+                                  {data.first_name && data.last_name
+                                    ? capitalizeFirstLetter(data.first_name) +
+                                      " " +
+                                      capitalizeFirstLetter(data.last_name)
+                                    : data.username}
                                 </Link>
                               </div>
                               <div style={{ fontSize: "0.8em" }}>
