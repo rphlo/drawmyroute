@@ -64,7 +64,11 @@ const Home = () => {
                   fontWeight: "bold",
                 }}
               >
-                {userData.first_name && userData.last_name  ? capitalizeFirstLetter(userData.first_name) + " " + capitalizeFirstLetter(userData.last_name) : userData.username }
+                {userData.first_name && userData.last_name
+                  ? capitalizeFirstLetter(userData.first_name) +
+                    " " +
+                    capitalizeFirstLetter(userData.last_name)
+                  : userData.username}
               </Link>
             </div>
             <hr />
