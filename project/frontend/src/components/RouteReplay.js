@@ -7,6 +7,8 @@ import { LatLng, cornerCalTransform } from "../utils";
 import { Position, PositionArchive } from "../utils/positions";
 import { scaleImage } from "../utils/drawHelpers";
 import useGlobalState from "../utils/useGlobalState";
+import "../utils/Leaflet.ImageTransform";
+import "../utils/leaflet-rotate";
 
 const RouteReplay = (props) => {
   const [playing, setPlaying] = useState(false);
@@ -14,12 +16,12 @@ const RouteReplay = (props) => {
 
   const [mapImage, setMapImage] = useState(false);
   const [speed, setSpeed] = useState(8);
+  const [imgRatio, setImgRatio] = useState("16/9");
   const [progress, setProgress] = useState(0);
   const [leafletMap, setLeafletMap] = useState(null);
   const [leafletTail, setLeafletTail] = useState(null);
   const [leafletMarker, setLeafletMarker] = useState(null);
   const [playInterval, setPlayInterval] = useState(null);
-  const [isPortrait, setIsPortrait] = useState(false);
   const mapDiv = useRef(null);
 
   const globalState = useGlobalState();
@@ -34,6 +36,7 @@ const RouteReplay = (props) => {
     img.onload = function () {
       var width = img.width,
         height = img.height;
+      setImgRatio("" + (width / height));
       const MAX = 3000;
       let canvas = null;
       if (height > MAX || width > MAX) {
@@ -76,6 +79,10 @@ const RouteReplay = (props) => {
             maxZoom: 2,
             zoomSnap: 0,
             scrollWheelZoom: true,
+            rotate:true,
+            rotateControl: false,
+            touchRotate: true,
+            zoomControl:false 
           });
           setLeafletMap(map);
           const bounds = [
@@ -123,15 +130,15 @@ const RouteReplay = (props) => {
       );
       if (!leafletMarker) {
         var svgRect =
-          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" preserveAspectRatio="xMidYMid meet" x="955"  stroke="red"><g fill="none" fill-rule="evenodd" stroke-width="2"><circle cx="22" cy="22" r="1"><animate attributeName="r" begin="0s" dur="1.8s" values="1; 20" calcMode="spline" keyTimes="0; 1" keySplines="0.165, 0.84, 0.44, 1" repeatCount="indefinite"/><animate attributeName="stroke-opacity" begin="0s" dur="1.8s" values="1; 0" calcMode="spline" keyTimes="0; 1" keySplines="0.3, 0.61, 0.355, 1" repeatCount="indefinite"/></circle><circle cx="22" cy="22" r="1"><animate attributeName="r" begin="-0.9s" dur="1.8s" values="1; 20" calcMode="spline" keyTimes="0; 1" keySplines="0.165, 0.84, 0.44, 1" repeatCount="indefinite"/><animate attributeName="stroke-opacity" begin="-0.9s" dur="1.8s" values="1; 0" calcMode="spline" keyTimes="0; 1" keySplines="0.3, 0.61, 0.355, 1" repeatCount="indefinite"/></circle></g></svg>';
+          '<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><circle fill="red" stroke="black" stroke-width="1px" cx="8" cy="8" r="6"/></svg>';
         var pulseIcon = L.icon({
           iconUrl: encodeURI("data:image/svg+xml," + svgRect).replace(
             "#",
             "%23"
           ),
-          iconSize: [40, 40],
-          shadowSize: [40, 40],
-          iconAnchor: [20, 20],
+          iconSize: [16, 16],
+          shadowSize: [16, 16],
+          iconAnchor: [8, 8],
           shadowAnchor: [0, 0],
           popupAnchor: [0, 0],
         });
@@ -300,7 +307,7 @@ const RouteReplay = (props) => {
             style={{
               marginBottom: "5px",
               width: "100%",
-              aspectRatio: isPortrait ? "9 / 16" : "16 / 9",
+              aspectRatio: imgRatio,
             }}
           ></div>
           <div style={{ marginBottom: "5px" }}>
@@ -313,17 +320,6 @@ const RouteReplay = (props) => {
                 <i className="fa fa-pause"></i>
               </button>
             )}
-            <span style={{ float: "right" }}>
-              <button
-                className="btn btn-light"
-                onClick={() => {
-                  setIsPortrait(!isPortrait);
-                  leafletMap.invalidateSize();
-                }}
-              >
-                <i className="fa fa-sync"></i>
-              </button>
-            </span>
             <span style={{ paddingLeft: "15px" }}>
               <Slider
                 style={{ width: "100%" }}
