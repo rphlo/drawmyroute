@@ -134,7 +134,8 @@ const RouteViewing = (props) => {
         rotate:true,
         rotateControl: false,
         touchRotate: true,
-        zoomControl:false 
+        zoomControl:false,
+        attributionControl: false,
       });
       setLeafletMap(map);
       const bounds = [
@@ -294,6 +295,7 @@ const RouteViewing = (props) => {
           maxZoom: 2,
           zoomSnap: 0,
           scrollWheelZoom: true,
+          attributionControl: false,
         });
         const bounds = [map.unproject([0, 0]), map.unproject([width, height])];
         new L.imageOverlay(imgDataURI, bounds).addTo(map);
