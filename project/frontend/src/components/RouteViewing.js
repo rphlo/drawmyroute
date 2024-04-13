@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createRef } from "react";
+import React, { useEffect, useState } from "react";
 import { getCorners } from "../utils/drawHelpers";
 import { saveAs } from "file-saver";
 import RouteHeader from "./RouteHeader";
@@ -11,7 +11,8 @@ import "react-range-slider-input/dist/style.css";
 import { LatLng, cornerCalTransform } from "../utils";
 import { scaleImage } from "../utils/drawHelpers";
 import Swal from "sweetalert2";
-
+import "../utils/Leaflet.ImageTransform";
+import "../utils/leaflet-rotate";
 function resetOrientation(src, callback) {
   var img = new Image();
   img.crossOrigin = "anonymous";
@@ -37,6 +38,7 @@ function resetOrientation(src, callback) {
 
 const RouteViewing = (props) => {
   const [mapImage, setMapImage] = useState(false);
+  const [imgRatio, setImgRatio] = useState("16/9");
   const [route, setRoute] = useState(false);
   const [includeHeader, setIncludeHeader] = useState(true);
   const [includeRoute, setIncludeRoute] = useState(true);
@@ -52,7 +54,8 @@ const RouteViewing = (props) => {
   const [leafletRoute, setLeafletRoute] = useState(null);
   const [croppingRange, setCroppingRange] = useState([0, 100]);
   const [savingCrop, setSavingCrop] = useState(false);
-  let finalImage = createRef();
+
+  const [leafletMap, setLeafletMap] = useState(null);
 
   const globalState = useGlobalState();
   const { api_token, username } = globalState.user;
@@ -109,6 +112,42 @@ const RouteViewing = (props) => {
     isPrivate,
     api_token,
   ]);
+
+  useEffect(() => {
+    var img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = function () {
+      onImgLoaded();
+      var width = img.width,
+          height = img.height;
+      setImgRatio("" + (width / height));
+      if (leafletMap) {
+       document.getElementById("map_div").innerHTML = "";
+       leafletMap.remove()
+      }
+      const map = L.map("map_div", {
+        crs: L.CRS.Simple,
+        minZoom: -5,
+        maxZoom: 2,
+        zoomSnap: 0,
+        scrollWheelZoom: true,
+        rotate:true,
+        rotateControl: false,
+        touchRotate: true,
+        zoomControl:false 
+      });
+      setLeafletMap(map);
+      const bounds = [
+        map.unproject([0, 0]),
+        map.unproject([width, height]),
+      ];
+      new L.imageOverlay(imgURL, bounds).addTo(map);
+      map.fitBounds(bounds);
+      map.invalidateSize();
+    };
+
+    img.src=imgURL
+  }, [imgURL])
 
   useEffect(() => {
     setName(props.name);
@@ -501,19 +540,11 @@ const RouteViewing = (props) => {
           )}
           {!cropping && imgURL && (
             <center>
-              <img
-                ref={finalImage}
-                crossOrigin="anonymous"
-                onLoad={onImgLoaded}
-                className="final-image"
-                src={imgURL}
-                alt="route"
-                onClick={toggleRoute}
-                style={{ marginTop: "5px", width: zoom + "%" }}
-              />
+              <div id="map_div" style={{background:"transparent", width: "100%", aspectRatio: imgRatio, maxHeight: "calc(100vh - 100px)"}}>
+              </div>
             </center>
           )}
-          {!imgLoaded && (
+          {cropping && !imgLoaded && (
             <center>
               <h3>
                 <i className="fa fa-spin fa-spinner"></i> Loading...
