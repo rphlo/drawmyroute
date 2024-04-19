@@ -121,30 +121,37 @@ const RouteViewing = (props) => {
       var width = img.width,
           height = img.height;
       setImgRatio("" + (width / height));
-      if (leafletMap) {
-       document.getElementById("map_div").innerHTML = "";
-       leafletMap.remove()
-      }
-      const map = L.map("map_div", {
-        crs: L.CRS.Simple,
-        minZoom: -5,
-        maxZoom: 2,
-        zoomSnap: 0,
-        scrollWheelZoom: true,
-        rotate:true,
-        rotateControl: false,
-        touchRotate: true,
-        zoomControl:false,
+      let fit = false;
+      let map = leafletMap;
+      if (map) {
+        map.eachLayer(function (layer) {
+          map.removeLayer(layer);
+        });
+      } else {
+        map = L.map("map_div", {
+          crs: L.CRS.Simple,
+          minZoom: -5,
+          maxZoom: 2,
+          zoomSnap: 0,
+          scrollWheelZoom: true,
+          rotate: true,
+          rotateControl: false,
+          touchRotate: true,
+          zoomControl:false,
         attributionControl: false,
-      });
-      setLeafletMap(map);
+        });
+        setLeafletMap(map);
+        fit = true;
+      }
+      map.invalidateSize();
       const bounds = [
-        map.unproject([0, 0]),
-        map.unproject([width, height]),
+        map.unproject([0, 0],0),
+        map.unproject([width, height],0),
       ];
       new L.imageOverlay(imgURL, bounds).addTo(map);
-      map.fitBounds(bounds);
-      map.invalidateSize();
+      if (fit) {
+        map.fitBounds(bounds);
+      }
     };
 
     img.src=imgURL
