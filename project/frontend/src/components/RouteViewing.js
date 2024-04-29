@@ -119,8 +119,8 @@ const RouteViewing = (props) => {
     img.onload = function () {
       onImgLoaded();
       var width = img.width,
-          height = img.height;
-      setImgRatio("" + (width / height));
+        height = img.height;
+      setImgRatio("" + width / height);
       let fit = false;
       let map = leafletMap;
       if (map) {
@@ -137,16 +137,16 @@ const RouteViewing = (props) => {
           rotate: true,
           rotateControl: false,
           touchRotate: true,
-          zoomControl:false,
-        attributionControl: false,
+          zoomControl: false,
+          attributionControl: false,
         });
         setLeafletMap(map);
         fit = true;
       }
       map.invalidateSize();
       const bounds = [
-        map.unproject([0, 0],0),
-        map.unproject([width, height],0),
+        map.unproject([0, 0], 0),
+        map.unproject([width, height], 0),
       ];
       new L.imageOverlay(imgURL, bounds).addTo(map);
       if (fit) {
@@ -154,8 +154,8 @@ const RouteViewing = (props) => {
       }
     };
 
-    img.src=imgURL
-  }, [imgURL])
+    img.src = imgURL;
+  }, [imgURL]);
 
   useEffect(() => {
     setName(props.name);
@@ -549,8 +549,15 @@ const RouteViewing = (props) => {
           )}
           {!cropping && imgURL && (
             <center>
-              <div id="map_div" style={{background:"transparent", width: "100%", aspectRatio: imgRatio, maxHeight: "calc(100vh - 100px)"}}>
-              </div>
+              <div
+                id="map_div"
+                style={{
+                  background: "transparent",
+                  width: "100%",
+                  aspectRatio: imgRatio,
+                  maxHeight: "calc(100vh - 100px)",
+                }}
+              ></div>
             </center>
           )}
           {cropping && !imgLoaded && (

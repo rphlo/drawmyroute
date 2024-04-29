@@ -36,7 +36,7 @@ const RouteReplay = (props) => {
     img.onload = function () {
       var width = img.width,
         height = img.height;
-      setImgRatio("" + (width / height));
+      setImgRatio("" + width / height);
       const MAX = 3000;
       let canvas = null;
       if (height > MAX || width > MAX) {
@@ -79,10 +79,10 @@ const RouteReplay = (props) => {
             maxZoom: 2,
             zoomSnap: 0,
             scrollWheelZoom: true,
-            rotate:true,
+            rotate: true,
             rotateControl: false,
             touchRotate: true,
-            zoomControl:false 
+            zoomControl: false,
           });
           setLeafletMap(map);
           const bounds = [
