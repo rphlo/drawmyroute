@@ -16,6 +16,21 @@ class RasterMapAdmin(admin.ModelAdmin):
         "corners_coordinates",
     )
 
+    @admin.action(description="Rotate 90°")
+    def rotate_90(self, request, qs):
+        for m in qs:
+            m.rotate(1)
+    
+    @admin.action(description="Rotate 180°")
+    def rotate_180(self, request, qs):
+        for m in qs:
+            m.rotate(2)
+    
+    @admin.action(description="Rotate 270°")
+    def rotate_180(self, request, qs):
+        for m in qs:
+            m.rotate(3)
+
 
 class RouteAdmin(admin.ModelAdmin):
     list_display = (
@@ -27,7 +42,7 @@ class RouteAdmin(admin.ModelAdmin):
     list_filter = ("athlete",)
     actions = ["clear_images"]
 
-    @admin.action(description="Clear images")
+    @admin.action(description="Clear images cache")
     def clear_images(self, request, qs):
         for r in qs:
             cache.delete(f"route_{r.images_path}_h")

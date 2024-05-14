@@ -188,6 +188,25 @@ class RasterMap(models.Model):
                 save=False,
             )
         self.image.close()
+    
+    def rotate(ninety_multiplier=1):
+        ninety_multiplier = ninety_multiplier % 4
+        cc = self.corners_coordinates.split(",")
+        self.corners_coordinates = cc[2 * ninety_multiplier:] + cc[:2 * ninety_multiplier]
+        if self.image.closed:
+            self.image.open()
+        with Image.open(self.image.file) as image:
+            image = image.transpose(ninety_multiplier + 1)
+            out_buffer = BytesIO()
+            image.save(out_buffer, mime_type[6:])
+            f_new = File(out_buffer, name=self.image.name)
+            self.image.save(
+                "filename",
+                f_new,
+                save=False,
+            )
+        self.image.close()
+        self.save()
 
     @property
     def hash(self):
