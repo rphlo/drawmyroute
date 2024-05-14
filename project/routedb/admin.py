@@ -15,6 +15,7 @@ class RasterMapAdmin(admin.ModelAdmin):
         "image",
         "corners_coordinates",
     )
+    actions = ["rotate_90", "rotate_1800", "rotate_270"]
 
     @admin.action(description="Rotate 90°")
     def rotate_90(self, request, qs):
@@ -27,7 +28,7 @@ class RasterMapAdmin(admin.ModelAdmin):
             m.rotate(2)
     
     @admin.action(description="Rotate 270°")
-    def rotate_180(self, request, qs):
+    def rotate_270(self, request, qs):
         for m in qs:
             m.rotate(3)
 
