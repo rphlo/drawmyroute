@@ -189,7 +189,7 @@ class RasterMap(models.Model):
             )
         self.image.close()
     
-    def rotate(ninety_multiplier=1):
+    def rotate(self, ninety_multiplier=1):
         ninety_multiplier = ninety_multiplier % 4
         cc = self.corners_coordinates.split(",")
         self.corners_coordinates = cc[2 * ninety_multiplier:] + cc[:2 * ninety_multiplier]
