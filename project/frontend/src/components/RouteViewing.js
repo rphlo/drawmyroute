@@ -552,7 +552,7 @@ const RouteViewing = (props) => {
               <div
                 id="map_div"
                 style={{
-                  background: "rgba(0,0,0,0.1)",
+                  background: "rgba(0,0,0,0.01)",
                   width: "100%",
                   aspectRatio: imgRatio,
                   maxHeight: "calc(100vh - 100px)",
