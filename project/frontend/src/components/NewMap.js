@@ -75,7 +75,7 @@ function NewMap() {
       return;
     }
     const newRoute = [];
-    for (const pos of gpx.tracks[0].points) {
+    for (const pos of (gpx.tracks[0]?.points || [])) {
       if (pos.lat) {
         newRoute.push({ time: pos.time, latlng: [pos.lat, pos.lon] });
       }
