@@ -21,12 +21,12 @@ class RasterMapAdmin(admin.ModelAdmin):
     def rotate_90(self, request, qs):
         for m in qs:
             m.rotate(1)
-    
+
     @admin.action(description="Rotate 180°")
     def rotate_180(self, request, qs):
         for m in qs:
             m.rotate(2)
-    
+
     @admin.action(description="Rotate 270°")
     def rotate_270(self, request, qs):
         for m in qs:

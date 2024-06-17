@@ -1,7 +1,8 @@
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from utils.s3 import get_s3_client, s3_delete_key
 from routedb.models import RasterMap, UserSettings
+from utils.s3 import get_s3_client, s3_delete_key
+
 
 class Command(BaseCommand):
     help = "Remove unused image file from storage"
@@ -25,6 +26,7 @@ class Command(BaseCommand):
             for obj in contents:
                 key = obj["Key"]
                 yield key
+
     def process_image_file(self, image_name, force):
         if image_name not in self.image_paths:
             self.n_image_removed += 1
@@ -34,7 +36,7 @@ class Command(BaseCommand):
         else:
             self.stdout.write(f"File {image_name} is used")
             self.n_image_keeped += 1
-    
+
     def handle(self, *args, **options):
         force = options["force"]
         self.image_paths = set(RasterMap.objects.values_list("image", flat=True))
