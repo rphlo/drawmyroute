@@ -188,11 +188,13 @@ class RasterMap(models.Model):
                 save=False,
             )
         self.image.close()
-    
+
     def rotate(self, ninety_multiplier=1):
         ninety_multiplier = ninety_multiplier % 4
         cc = self.corners_coordinates.split(",")
-        self.corners_coordinates = ",".join(cc[2 * ninety_multiplier:] + cc[:2 * ninety_multiplier])
+        self.corners_coordinates = ",".join(
+            cc[2 * ninety_multiplier :] + cc[: 2 * ninety_multiplier]
+        )
         if self.image.closed:
             self.image.open()
         with Image.open(self.image.file) as image:
