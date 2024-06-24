@@ -27,7 +27,7 @@ oauthlib==3.2.2
 patchy==2.8.0
 pillow==10.0.1
 pint==0.22
-psycopg==3.1.19
+psycopg2==2.9.9
 pycparser==2.21
 pydantic==1.10.17
 pyjwt[crypto]==2.8.0
@@ -42,7 +42,7 @@ s3transfer==0.6.1
 scipy==1.13.1
 six==1.16.0
 soupsieve==2.4.1
-sqlparse==0.4.4
+sqlparse==0.5.0
 stravalib==1.7
 timezonefinder==6.2.0
 typing-extensions==4.12.2
