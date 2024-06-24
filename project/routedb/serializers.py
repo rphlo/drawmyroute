@@ -95,7 +95,7 @@ class UserSettingsSerializer(serializers.ModelSerializer):
             if image.size[0] < 128:
                 raise ValidationError("The image is too small, < 128px width")
             if image.size[0] > target:
-                rgba_img.thumbnail((target, target), Image.ANTIALIAS)
+                rgba_img.thumbnail((target, target), Image.LANCZOS)
             out_buffer = BytesIO()
             params = {
                 "dpi": (72, 72),
