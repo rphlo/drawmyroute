@@ -27,7 +27,7 @@ oauthlib==3.2.2
 patchy==2.8.0
 pillow==10.0.1
 pint==0.22
-psycopg2==2.9.6
+psycopg==3.1.19
 pycparser==2.21
 pydantic==1.10.9
 pyjwt[crypto]==2.8.0
