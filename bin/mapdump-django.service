@@ -1,0 +1,18 @@
+[Unit]
+Description="mapdump django server"
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=Simple
+ExecStart=/apps/mapdump/env/bin/uwsgi --ini /apps/mapdump/bin/uwsgi.ini
+Restart=always
+Environment="PATH=/apps/mapdump/env/bin/"
+WorkingDirectory=/apps/mapdump/
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutSec=5
+PrivateTmp=true
+
+[Install]
+WantedBy=default.target

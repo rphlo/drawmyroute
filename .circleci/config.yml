@@ -67,7 +67,7 @@ jobs:
     - run:
         name: Deploy
         command: |
-          ssh rphlo@mapdump.com 'sudo -u apps /apps/mapdump/bin/deploy'
+          ssh apps@mapdump.com /apps/mapdump/bin/deploy
 
   build-docker:
     machine:

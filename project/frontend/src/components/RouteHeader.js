@@ -204,6 +204,7 @@ const RouteHeader = (props) => {
           "Content-Type": "application/json",
         },
       });
+      // remove strava link
       props.history.push("/");
     }
   };
