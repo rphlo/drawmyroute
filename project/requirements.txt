@@ -25,11 +25,11 @@ jmespath==1.0.1
 numpy==1.26.0
 oauthlib==3.2.2
 patchy==2.8.0
-pillow==10.0.1
+pillow==10.3.0
 pint==0.22
-psycopg==3.1.19
+psycopg2==2.9.9
 pycparser==2.21
-pydantic==2.7.4
+pydantic==1.10.17
 pyjwt[crypto]==2.8.0
 python-dateutil==2.8.2
 python3-openid==3.2.0
