@@ -7,7 +7,7 @@ bs4==0.0.1
 certifi==2023.7.22
 cffi==1.15.1
 charset-normalizer==3.1.0
-cryptography==41.0.6
+cryptography==42.0.4
 defusedxml==0.7.1
 diskcache==5.6.1
 dj-rest-auth[with-social,with_social]==4.0.1
@@ -48,7 +48,6 @@ timezonefinder==6.2.0
 typing-extensions==4.12.2
 urllib3==1.26.18
 uwsgi==2.0.25
-dj-database-url
-sentry-sdk
+
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
