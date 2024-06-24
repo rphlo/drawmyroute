@@ -20,7 +20,7 @@ django-tagging @ git+https://github.com/rphlo/django-tagging
 djangorestframework==3.14.0
 gpxpy==1.5.0
 h3==3.7.6
-idna==3.4
+idna==3.7
 jmespath==1.0.1
 numpy==1.26.0
 oauthlib==3.2.2
