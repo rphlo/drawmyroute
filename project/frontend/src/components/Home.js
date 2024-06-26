@@ -44,7 +44,7 @@ const Home = () => {
             style={{ marginBottom: "15px", zIndex: 100 }}
           >
             <div style={{ textAlign: "center" }}>
-              <div style={{ marginRight: "10px", textAlign: "center" }}>
+              <div style={{ textAlign: "center" }}>
                 <img
                   src={
                     process.env.REACT_APP_AVATAR_ROOT +
