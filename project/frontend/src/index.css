@@ -33,7 +33,7 @@ footer {
   z-index: 1;
 }
 .jumbotron::before {
-  background: url(tove.jpg) no-repeat;
+  background: url(header.jpg) no-repeat;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
