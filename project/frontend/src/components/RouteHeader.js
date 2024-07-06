@@ -209,12 +209,26 @@ const RouteHeader = (props) => {
     }
   };
 
-  const mapCenterCoords = function() {
+  const mapCenterCoords = function () {
     return [
-      Math.round((props.mapCornersCoords.top_left.lat + props.mapCornersCoords.bottom_right.lat + props.mapCornersCoords.bottom_left.lat + props.mapCornersCoords.top_right.lat) / 4 * 100000) / 100000,
-      Math.round((props.mapCornersCoords.top_left.lng + props.mapCornersCoords.bottom_right.lng + props.mapCornersCoords.bottom_left.lng + props.mapCornersCoords.top_right.lng) / 4 * 100000) / 100000
-    ]
-  }
+      Math.round(
+        ((props.mapCornersCoords.top_left.lat +
+          props.mapCornersCoords.bottom_right.lat +
+          props.mapCornersCoords.bottom_left.lat +
+          props.mapCornersCoords.top_right.lat) /
+          4) *
+          100000
+      ) / 100000,
+      Math.round(
+        ((props.mapCornersCoords.top_left.lng +
+          props.mapCornersCoords.bottom_right.lng +
+          props.mapCornersCoords.bottom_left.lng +
+          props.mapCornersCoords.top_right.lng) /
+          4) *
+          100000
+      ) / 100000,
+    ];
+  };
 
   return (
     <div>
@@ -335,7 +349,29 @@ const RouteHeader = (props) => {
                     ""
                   )}
                 </div>
-                <div style={{fontSize: "12px", gap: "5px", paddingLeft: "5px", paddingTop: "10px"}}><a href={"https://www.openstreetmap.org/?mlat="+mapCenterCoords()[0]+"&mlon="+mapCenterCoords()[1]} className="btn btn-sm btn-info text-nowrap" target="_blank" rel="noreferrer"><i className="fa fa-map-marked-alt"></i> {mapCenterCoords()[0]}, {mapCenterCoords()[1]}</a></div>
+                <div
+                  style={{
+                    fontSize: "12px",
+                    gap: "5px",
+                    paddingLeft: "5px",
+                    paddingTop: "10px",
+                  }}
+                >
+                  <a
+                    href={
+                      "https://www.openstreetmap.org/?mlat=" +
+                      mapCenterCoords()[0] +
+                      "&mlon=" +
+                      mapCenterCoords()[1]
+                    }
+                    className="btn btn-sm btn-info text-nowrap"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <i className="fa fa-map-marked-alt"></i>{" "}
+                    {mapCenterCoords()[0]}, {mapCenterCoords()[1]}
+                  </a>
+                </div>
               </div>
             </h2>
           </div>
