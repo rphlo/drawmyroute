@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Point, cornerBackTransform } from "../utils";
+import { Point, cornerBackTransform, resetOrientation } from "../utils";
 import * as L from "leaflet";
 
 const PathDrawing = (props) => {
@@ -7,24 +7,6 @@ const PathDrawing = (props) => {
   const [leafletMap, setLeafletMap] = useState(null);
   const [route, setRoute] = React.useState([]);
   const [pl] = React.useState(L.polyline([], { color: "red" }));
-
-  function resetOrientation(src, callback) {
-    var img = new Image();
-    img.crossOrigin = "anonymous";
-    img.onload = function () {
-      var width = img.width,
-        height = img.height,
-        canvas = document.createElement("canvas"),
-        ctx = canvas.getContext("2d");
-      canvas.width = width;
-      canvas.height = height;
-      ctx.drawImage(img, 0, 0);
-
-      // export base64
-      callback(canvas.toDataURL("image/png"), width, height);
-    };
-    img.src = src;
-  }
 
   useEffect(() => {
     resetOrientation(props.mapDataURL, function (imgDataURI, width, height) {

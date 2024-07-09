@@ -291,6 +291,35 @@ const getFlagEmoji = (countryCode) => {
   return String.fromCodePoint(codePoints[0], codePoints[1]);
 };
 
+const resetOrientation = (src, callback) => {
+  var img = new Image();
+  img.crossOrigin = "anonymous";
+  img.onload = function () {
+    const MAX_WIDTH = 4096;
+    const MAX_HEIGHT = 4096;
+    let width = img.width,
+      height = img.height;
+    const canvas = document.createElement("canvas"),
+      ctx = canvas.getContext("2d");
+    if (width > height) {
+      if (width > MAX_WIDTH) {
+        height = height * (MAX_WIDTH / width);
+        width = MAX_WIDTH;
+      }
+    } else {
+      if (height > MAX_HEIGHT) {
+        width = width * (MAX_HEIGHT / height);
+        height = MAX_HEIGHT;
+      }
+    }
+    canvas.width = width;
+    canvas.height = height;
+    ctx.drawImage(img, 0, 0, width, height);
+    callback(canvas.toDataURL("image/png"), width, height);
+  };
+  img.src = src;
+};
+
 module.exports = {
   Point,
   LatLng,
@@ -305,4 +334,5 @@ module.exports = {
   displayDate,
   regionNames,
   getFlagEmoji,
+  resetOrientation,
 };

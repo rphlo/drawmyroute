@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { getCorners } from "../utils/drawHelpers";
 import { saveAs } from "file-saver";
 import RouteHeader from "./RouteHeader";
@@ -8,82 +8,57 @@ import useGlobalState from "../utils/useGlobalState";
 import * as L from "leaflet";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
-import { LatLng, cornerCalTransform } from "../utils";
-import { scaleImage } from "../utils/drawHelpers";
+import { LatLng, cornerCalTransform, resetOrientation } from "../utils";
 import Swal from "sweetalert2";
 import "../utils/Leaflet.ImageTransform";
 import "../utils/leaflet-rotate";
-function resetOrientation(src, callback) {
-  var img = new Image();
-  img.crossOrigin = "anonymous";
-  img.onload = function () {
-    var width = img.width,
-      height = img.height;
-    const MAX = 3000;
-    let canvas = null;
-    if (height > MAX || width > MAX) {
-      canvas = scaleImage(img, MAX / Math.max(height, width));
-    } else {
-      canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      canvas.width = width;
-      canvas.height = height;
-      ctx.drawImage(img, 0, 0);
-    }
-    // export base64
-    callback(canvas.toDataURL("image/png"), width, height);
-  };
-  img.src = src;
-}
+
+const round5 = (v) => {
+  return Math.round(v * 1e5) / 1e5;
+};
+
+const printCornersCoords = (corners_coords, separator) => {
+  return [
+    corners_coords.top_left.lat,
+    corners_coords.top_left.lng,
+    corners_coords.top_right.lat,
+    corners_coords.top_right.lng,
+    corners_coords.bottom_right.lat,
+    corners_coords.bottom_right.lng,
+    corners_coords.bottom_left.lat,
+    corners_coords.bottom_left.lng,
+  ]
+    .map((c) => round5(c))
+    .join(separator);
+};
 
 const RouteViewing = (props) => {
-  const [mapImage, setMapImage] = useState(false);
-  const [imgRatio, setImgRatio] = useState("16/9");
   const [route, setRoute] = useState(false);
+  const [mapImage, setMapImage] = useState(false);
   const [includeHeader, setIncludeHeader] = useState(true);
   const [includeRoute, setIncludeRoute] = useState(true);
   const [name, setName] = useState();
   const [isPrivate, setIsPrivate] = useState(props.isPrivate);
   const [togglingRoute, setTogglingRoute] = useState();
   const [togglingHeader, setTogglingHeader] = useState();
-  const [zoom, setZoom] = useState(100);
   const [imgURL, setImgURL] = useState(null);
   const [imgLoaded, setImgLoaded] = useState(false);
-  const [firstLoad, setFirstLoad] = useState(true);
   const [cropping, setCropping] = useState(false);
   const [leafletRoute, setLeafletRoute] = useState(null);
   const [croppingRange, setCroppingRange] = useState([0, 100]);
   const [savingCrop, setSavingCrop] = useState(false);
-
   const [leafletMap, setLeafletMap] = useState(null);
-
+  const [isBoundSet, setIsBoundSet] = useState(null);
   const globalState = useGlobalState();
   const { api_token, username } = globalState.user;
 
-  const loadCache = async (url) => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.crossOrigin = "anonymous";
-      img.onload = resolve;
-      img.onerror = reject;
-      img.src = url;
-    });
-  };
+  const imgRatio = useMemo(() => {
+    return !mapImage.width ? "16/9" : ("" + (mapImage.width / mapImage.height))
+  }, [mapImage])
 
-  useEffect(() => {
-    const arch = [];
-    props.route.forEach((p) =>
-      arch.push({
-        timestamp: p?.time,
-        coords: { latitude: p.latlng[0], longitude: p.latlng[1] },
-      })
-    );
-    setRoute(arch);
-  }, [props.route]);
-
-  const canEdit = () => {
+  const canEdit = useMemo(() => {
     return username === props.athlete.username;
-  };
+  }, [username, props.athlete.username]);
 
   useEffect(() => {
     const qp = new URLSearchParams();
@@ -107,78 +82,85 @@ const RouteViewing = (props) => {
     includeRoute,
     props.mapDataURL,
     props.modificationDate,
-    togglingHeader,
-    togglingRoute,
     isPrivate,
     api_token,
   ]);
+  
+  useEffect(() => {
+    setName(props.name);
+  }, [props.name]);
+
+  useEffect(() => {
+    const arch = [];
+    props.route.forEach((p) =>
+      arch.push({
+        timestamp: p?.time,
+        coords: { latitude: p.latlng[0], longitude: p.latlng[1] },
+      })
+    );
+    setRoute(arch);
+  }, [props.route]);
 
   useEffect(() => {
     var img = new Image();
     img.crossOrigin = "anonymous";
     img.onload = function () {
-      onImgLoaded();
-      var width = img.width,
-        height = img.height;
-      setImgRatio("" + width / height);
-      let fit = false;
-      let map = leafletMap;
-      if (map) {
-        map.eachLayer(function (layer) {
-          map.removeLayer(layer);
-        });
-      } else {
-        map = L.map("map_div", {
-          crs: L.CRS.Simple,
-          minZoom: -5,
-          maxZoom: 2,
-          zoomSnap: 0,
-          scrollWheelZoom: true,
-          rotate: true,
-          rotateControl: false,
-          touchRotate: true,
-          zoomControl: false,
-          attributionControl: false,
-        });
-        setLeafletMap(map);
-        fit = true;
-      }
-      map.invalidateSize();
-      const bounds = [
-        map.unproject([0, 0], 0),
-        map.unproject([width, height], 0),
-      ];
-      new L.imageOverlay(imgURL, bounds).addTo(map);
-      if (fit) {
-        map.fitBounds(bounds);
-      }
-    };
-
+      const width = img.width, height = img.height;
+      setMapImage({ imgURL, width, height });
+      setTogglingHeader(false);
+      setTogglingRoute(false);
+      setImgLoaded(true);
+    }
     img.src = imgURL;
   }, [imgURL]);
 
   useEffect(() => {
-    setName(props.name);
-  }, [props.name]);
+    if (leafletMap && mapImage) {
+      leafletMap.eachLayer(function (layer) {
+        leafletMap.removeLayer(layer);
+      });
+      leafletMap.invalidateSize();
+      const bounds = [
+        leafletMap.unproject([0, 0], 0),
+        leafletMap.unproject([mapImage.width, mapImage.height], 0),
+      ];
+      new L.imageOverlay(mapImage.imgURL, bounds).addTo(leafletMap);
+      
+      setIsBoundSet((isBoundSet) => {
+        if (!isBoundSet) {
+          leafletMap.fitBounds(bounds);  
+        }
+        return true;
+      })
 
-  const round5 = (v) => {
-    return Math.round(v * 1e5) / 1e5;
-  };
-
-  const printCornersCoords = (corners_coords, separator) => {
-    return [
-      corners_coords.top_left.lat,
-      corners_coords.top_left.lng,
-      corners_coords.top_right.lat,
-      corners_coords.top_right.lng,
-      corners_coords.bottom_right.lat,
-      corners_coords.bottom_right.lng,
-      corners_coords.bottom_left.lat,
-      corners_coords.bottom_left.lng,
-    ]
-      .map((c) => round5(c))
-      .join(separator);
-  };
+      if(cropping) {
+        const transform = cornerCalTransform(
+          mapImage.width,
+          mapImage.height,
+          props.mapCornersCoords.top_left,
+          props.mapCornersCoords.top_right,
+          props.mapCornersCoords.bottom_right,
+          props.mapCornersCoords.bottom_left
+        );
+        const routeLatLng = [];
+        route.forEach(function (pos) {
+          if (!isNaN(pos.coords.latitude)) {
+            const pt = transform(
+              new LatLng(pos.coords.latitude, pos.coords.longitude)
+            );
+            routeLatLng.push([-pt.y, pt.x]);
+          }
+        });
+        const t = L.polyline(routeLatLng, {
+          color: "red",
+          opacity: 0.75,
+          weight: 5,
+        });
+        t.addTo(leafletMap);
+        setLeafletRoute(t);
+      }
+    };
+  }, [leafletMap, mapImage, cropping, props.mapCornersCoords, route])
 
   const downloadMap = () => {
     const newCorners = getCorners(
@@ -228,6 +210,7 @@ const RouteViewing = (props) => {
     setIncludeHeader(!includeHeader);
     setTogglingHeader(true);
   };
+
   const toggleRoute = (ev) => {
     if (togglingRoute) {
       return;
@@ -236,38 +219,9 @@ const RouteViewing = (props) => {
     setTogglingRoute(true);
   };
 
-  const hasRouteTime = () => {
+  const hasRouteTime = useMemo(() => {
     return !!props.route[0].time;
-  };
-
-  const zoomOut = () => {
-    setZoom(Math.max(10, zoom - 10));
-  };
-
-  const zoomIn = () => {
-    setZoom(zoom + 10);
-  };
-
-  const onImgLoaded = async () => {
-    setImgLoaded(true);
-    if (togglingHeader) {
-      setTogglingHeader(false);
-    }
-    if (togglingRoute) {
-      setTogglingRoute(false);
-    }
-    if (firstLoad) {
-      setFirstLoad(false);
-      const qp = new URLSearchParams();
-      qp.set("m", props.modificationDate);
-      qp.set("show_header", "1");
-      if (isPrivate) {
-        qp.set("auth_token", api_token);
-      }
-      const url = props.mapDataURL + "?" + qp.toString();
-      await loadCache(url);
-    }
-  };
+  }, [props.route]);
 
   let webShareApiAvailable = false;
   if (navigator.canShare) {
@@ -289,50 +243,20 @@ const RouteViewing = (props) => {
   };
 
   const cropRoute = () => {
-    setCropping(true);
     setImgLoaded(false);
+    setMapImage(false);
     resetOrientation(
       props.mapDataURL + (props.isPrivate ? "?auth_token=" + api_token : ""),
-      function (imgDataURI, width, height) {
-        setMapImage({ width, height });
+      function (_, width, height) {
+        setMapImage({ imgURL: props.mapDataURL + (props.isPrivate ? "?auth_token=" + api_token : ""), width, height });
+        setIsBoundSet(false);
+        setCropping(true);
         setImgLoaded(true);
-        const map = L.map("croppingMap", {
-          crs: L.CRS.Simple,
-          minZoom: -5,
-          maxZoom: 2,
-          zoomSnap: 0,
-          scrollWheelZoom: true,
-          attributionControl: false,
-        });
-        const bounds = [map.unproject([0, 0]), map.unproject([width, height])];
-        new L.imageOverlay(imgDataURI, bounds).addTo(map);
-        map.fitBounds(bounds);
-        map.invalidateSize();
-
-        const transform = cornerCalTransform(
-          width,
-          height,
-          props.mapCornersCoords.top_left,
-          props.mapCornersCoords.top_right,
-          props.mapCornersCoords.bottom_right,
-          props.mapCornersCoords.bottom_left
-        );
-        const routeLatLng = [];
-        route.forEach(function (pos) {
-          if (!isNaN(pos.coords.latitude)) {
-            const pt = transform(
-              new LatLng(pos.coords.latitude, pos.coords.longitude)
-            );
-            routeLatLng.push([-pt.y, pt.x]);
-          }
-        });
-        const t = L.polyline(routeLatLng, {
-          color: "red",
-          opacity: 0.75,
-          weight: 5,
-        });
-        t.addTo(map);
-        setLeafletRoute(t);
+        const bounds = [
+          leafletMap.unproject([0, 0], 0),
+          leafletMap.unproject([mapImage.width, mapImage.height], 0),
+        ];
+        leafletMap.fitBounds(bounds);
       }
     );
   };
@@ -407,6 +331,26 @@ const RouteViewing = (props) => {
     } catch (e) {}
   };
 
+  const mapRef = useCallback((node) => {
+    if (node !== null) {
+      const newMap = L.map(node, {
+        crs: L.CRS.Simple,
+        minZoom: -5,
+        maxZoom: 2,
+        zoomSnap: 0,
+        scrollWheelZoom: true,
+        rotate: true,
+        rotateControl: false,
+        touchRotate: true,
+        zoomControl: false,
+        attributionControl: false,
+      });
+      setLeafletMap(newMap);
+    } else {
+      setLeafletMap(null);
+    }
+  }, []);
+
   return (
     <>
       <div className="container main-container">
@@ -453,7 +397,7 @@ const RouteViewing = (props) => {
               >
                 <i className="fas fa-download"></i> GPX (Route)
               </button>
-              {canEdit() && (
+              {canEdit && (
                 <>
                   &nbsp;
                   <button
@@ -465,7 +409,7 @@ const RouteViewing = (props) => {
                   </button>
                 </>
               )}
-              {hasRouteTime() && (
+              {hasRouteTime && (
                 <button
                   style={{ marginBottom: "5px" }}
                   className="btn btn-sm btn-primary float-right"
@@ -476,22 +420,6 @@ const RouteViewing = (props) => {
               )}
             </div>
             <div>
-              <button
-                className="btn btn-sm btn-default"
-                onClick={zoomIn}
-                aria-label="Zoom in"
-              >
-                <i className={"fa fa-plus"}></i>
-              </button>
-              &nbsp;
-              <button
-                className="btn btn-sm btn-default"
-                onClick={zoomOut}
-                aria-label="Zoom out"
-              >
-                <i className={"fa fa-minus"}></i>
-              </button>
-              &nbsp;
               <button className="btn btn-sm btn-default" onClick={toggleHeader}>
                 <i
                   className={
@@ -544,13 +472,12 @@ const RouteViewing = (props) => {
                 step={0.001}
                 onInput={onCropChange}
               />
-              <div id="croppingMap" style={{ height: "500px" }}></div>
             </div>
           )}
-          {!cropping && imgURL && (
+          {imgLoaded && (
             <center>
               <div
-                id="map_div"
+                ref={mapRef}
                 style={{
                   background: "rgba(0,0,0,0.03)",
                   width: "100%",
@@ -558,9 +485,10 @@ const RouteViewing = (props) => {
                   maxHeight: "calc(100vh - 100px)",
                 }}
               ></div>
+              { isBoundSet && <>a</>}
             </center>
           )}
-          {cropping && !imgLoaded && (
+          {!imgLoaded && (
             <center>
               <h3>
                 <i className="fa fa-spin fa-spinner"></i> Loading...

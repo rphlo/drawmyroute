@@ -26,7 +26,7 @@ const LatestRoute = (props) => {
       (props?.tag ? "/v1/routes-by-tag/" + props.tag : "/v1/latest-routes/");
   }, [props.tag]);
 
-  const fetchData = async () => {
+  const fetchData = React.useCallback(async () => {
     setLoading(true);
     try {
       const headers = {};
@@ -48,9 +48,10 @@ const LatestRoute = (props) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [api_token]);
 
   React.useEffect(() => {
+    const currentTarget = observerTarget.current;
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
@@ -59,17 +60,16 @@ const LatestRoute = (props) => {
       },
       { threshold: 1 }
     );
-
-    if (observerTarget.current) {
-      observer.observe(observerTarget.current);
+    if (currentTarget) {
+      observer.observe(currentTarget);
     }
 
     return () => {
-      if (observerTarget.current) {
-        observer.unobserve(observerTarget.current);
+      if (currentTarget) {
+        observer.unobserve(currentTarget);
       }
     };
-  }, [observerTarget]);
+  }, [observerTarget, fetchData]);
 
   return (
     <>

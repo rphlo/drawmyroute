@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import * as L from "leaflet";
 import Slider from "react-input-slider";
 import RouteHeader from "./RouteHeader";
 import ShareModal from "./ShareModal";
-import { LatLng, cornerCalTransform } from "../utils";
+import { LatLng, cornerCalTransform, resetOrientation } from "../utils";
 import { Position, PositionArchive } from "../utils/positions";
-import { scaleImage } from "../utils/drawHelpers";
 import useGlobalState from "../utils/useGlobalState";
 import "../utils/Leaflet.ImageTransform";
 import "../utils/leaflet-rotate";
@@ -16,7 +15,6 @@ const RouteReplay = (props) => {
 
   const [mapImage, setMapImage] = useState(false);
   const [speed, setSpeed] = useState(8);
-  const [imgRatio, setImgRatio] = useState("16/9");
   const [progress, setProgress] = useState(0);
   const [leafletMap, setLeafletMap] = useState(null);
   const [leafletTail, setLeafletTail] = useState(null);
@@ -30,29 +28,10 @@ const RouteReplay = (props) => {
   const FPS = 15;
   const tailLength = 60;
 
-  function resetOrientation(src, callback) {
-    var img = new Image();
-    img.crossOrigin = "anonymous";
-    img.onload = function () {
-      var width = img.width,
-        height = img.height;
-      setImgRatio("" + width / height);
-      const MAX = 3000;
-      let canvas = null;
-      if (height > MAX || width > MAX) {
-        canvas = scaleImage(img, MAX / Math.max(height, width));
-      } else {
-        canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-        canvas.width = width;
-        canvas.height = height;
-        ctx.drawImage(img, 0, 0);
-      }
-      // export base64
-      callback(canvas.toDataURL("image/png"), width, height);
-    };
-    img.src = src;
-  }
+  const imgRatio = useMemo(
+    () => !mapImage.width  ? "16/9" : ("" + mapImage.width / mapImage.height),
+    [mapImage]
+  );
 
   useEffect(() => {
     const arch = new PositionArchive();
