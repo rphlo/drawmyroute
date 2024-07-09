@@ -485,7 +485,7 @@ const RouteViewing = (props) => {
                   maxHeight: "calc(100vh - 100px)",
                 }}
               ></div>
-              { isBoundSet && <>a</>}
+              { isBoundSet && <></>}
             </center>
           )}
           {!imgLoaded && (
