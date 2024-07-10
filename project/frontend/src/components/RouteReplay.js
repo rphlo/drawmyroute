@@ -29,7 +29,7 @@ const RouteReplay = (props) => {
   const tailLength = 60;
 
   const imgRatio = useMemo(
-    () => !mapImage.width  ? "16/9" : ("" + mapImage.width / mapImage.height),
+    () => (!mapImage.width ? "16/9" : "" + mapImage.width / mapImage.height),
     [mapImage]
   );
 

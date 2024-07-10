@@ -53,8 +53,8 @@ const RouteViewing = (props) => {
   const { api_token, username } = globalState.user;
 
   const imgRatio = useMemo(() => {
-    return !mapImage.width ? "16/9" : ("" + (mapImage.width / mapImage.height))
-  }, [mapImage])
+    return !mapImage.width ? "16/9" : "" + mapImage.width / mapImage.height;
+  }, [mapImage]);
 
   const canEdit = useMemo(() => {
     return username === props.athlete.username;
@@ -85,7 +85,7 @@ const RouteViewing = (props) => {
     isPrivate,
     api_token,
   ]);
-  
+
   useEffect(() => {
     setName(props.name);
   }, [props.name]);
@@ -105,12 +105,13 @@ const RouteViewing = (props) => {
     var img = new Image();
     img.crossOrigin = "anonymous";
     img.onload = function () {
-      const width = img.width, height = img.height;
+      const width = img.width,
+        height = img.height;
       setMapImage({ imgURL, width, height });
       setTogglingHeader(false);
       setTogglingRoute(false);
       setImgLoaded(true);
-    }
+    };
     img.src = imgURL;
   }, [imgURL]);
 
@@ -125,15 +126,15 @@ const RouteViewing = (props) => {
         leafletMap.unproject([mapImage.width, mapImage.height], 0),
       ];
       new L.imageOverlay(mapImage.imgURL, bounds).addTo(leafletMap);
-      
+
       setIsBoundSet((isBoundSet) => {
         if (!isBoundSet) {
-          leafletMap.fitBounds(bounds);  
+          leafletMap.fitBounds(bounds);
         }
         return true;
-      })
+      });
 
-      if(cropping) {
+      if (cropping) {
         const transform = cornerCalTransform(
           mapImage.width,
           mapImage.height,
@@ -159,8 +160,8 @@ const RouteViewing = (props) => {
         t.addTo(leafletMap);
         setLeafletRoute(t);
       }
-    };
-  }, [leafletMap, mapImage, cropping, props.mapCornersCoords, route])
+    }
+  }, [leafletMap, mapImage, cropping, props.mapCornersCoords, route]);
 
   const downloadMap = () => {
     const newCorners = getCorners(
@@ -248,7 +249,13 @@ const RouteViewing = (props) => {
     resetOrientation(
       props.mapDataURL + (props.isPrivate ? "?auth_token=" + api_token : ""),
       function (_, width, height) {
-        setMapImage({ imgURL: props.mapDataURL + (props.isPrivate ? "?auth_token=" + api_token : ""), width, height });
+        setMapImage({
+          imgURL:
+            props.mapDataURL +
+            (props.isPrivate ? "?auth_token=" + api_token : ""),
+          width,
+          height,
+        });
         setIsBoundSet(false);
         setCropping(true);
         setImgLoaded(true);
@@ -485,7 +492,7 @@ const RouteViewing = (props) => {
                   maxHeight: "calc(100vh - 100px)",
                 }}
               ></div>
-              { isBoundSet && <></>}
+              {isBoundSet && <></>}
             </center>
           )}
           {!imgLoaded && (
