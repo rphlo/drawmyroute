@@ -312,7 +312,7 @@ const UserView = ({ match, history }) => {
           )}
           {getCountryStats()
             .map((c) => (
-              <span key={c.country} title={regionNames.of(c.country)}>
+              <span key={c.country} title={regionNames.of(c.country)} className="countryFlags">
                 {getFlagEmoji(c.country)} {c.count}
               </span>
             ))
@@ -361,6 +361,7 @@ const UserView = ({ match, history }) => {
                           <br />
                           <span
                             title={regionNames.of(r.country)}
+                            className="countryFlags"
                             style={{ fontSize: "1.5em", margin: "5px" }}
                           >
                             {getFlagEmoji(r.country)}

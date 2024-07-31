@@ -266,7 +266,7 @@ const RouteHeader = (props) => {
             <br />
             <span
               title={regionNames.of(props.country)}
-              className={"fa-2x"}
+              className={"fa-2x countryFlags"}
               style={{ marginTop: "15px" }}
             >
               {getFlagEmoji(props.country)}

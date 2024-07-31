@@ -320,6 +320,31 @@ const resetOrientation = (src, callback) => {
   img.src = src;
 };
 
+const needFlagsEmojiPolyfill = (function(){
+  function checkPixelInImageDataArray(e,t){
+    const n=4*e,a=t[n+0]||t[n+1]||t[n+2],i=t[n+3];
+    return!(!a||!i)
+  }
+  function ifEmoji(e){
+    const t=document.createElement("canvas"),n=t.getContext("2d");
+    if(null==n)return!1;
+    t.width=32;
+    t.height=16;
+    n.fillStyle="#000000";
+    n.textBaseline="middle";
+    n.fillText(e,0,8);
+    const a=n.getImageData(0,8,32,1).data;
+    let i=!1;
+    for(let e=0;e<64;e+=1){
+      const t=e>=24;
+      if(e<16&&checkPixelInImageDataArray(e,a))i=!0;
+      else if(t&&checkPixelInImageDataArray(e,a))return!1
+    }
+    return i
+  }
+  return ifEmoji("😀")&&!ifEmoji("🇨🇭");
+})();
+
 module.exports = {
   Point,
   LatLng,
@@ -335,4 +360,5 @@ module.exports = {
   regionNames,
   getFlagEmoji,
   resetOrientation,
+  needFlagsEmojiPolyfill,
 };
