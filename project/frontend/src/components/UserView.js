@@ -312,8 +312,8 @@ const UserView = ({ match, history }) => {
           )}
           {getCountryStats()
             .map((c) => (
-              <span key={c.country} title={regionNames.of(c.country)} className="countryFlags">
-                {getFlagEmoji(c.country)} {c.count}
+              <span key={c.country} title={regionNames.of(c.country)}>
+                <b className="countryFlags">{getFlagEmoji(c.country)}</b> {c.count}
               </span>
             ))
             .reduce((accu, elem, idx) => {
