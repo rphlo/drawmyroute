@@ -258,7 +258,7 @@ const RouteDrawing = (props) => {
             ) {
               const description = `${props.stravaDetails.description || ""}${
                 props.stravaDetails.description && res.id ? "\r\n\r\n" : ""
-              }${res.id ? `https://mapdump.com/routes/${res.id}` : ""}`;
+              }${res.id ? `https://mapdu.mp/r/${res.id}` : ""}`;
               try {
                 await fetch(
                   "https://www.strava.com/api/v3/activities/" +
