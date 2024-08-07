@@ -137,7 +137,7 @@ const LatestRoute = (props) => {
                           <span
                             title={regionNames.of(r.country)}
                             className="countryFlags"
-                            style={{ fontSize: "1.5em", margin: "5px"}}
+                            style={{ fontSize: "1.5em", margin: "5px" }}
                           >
                             {getFlagEmoji(r.country)}
                           </span>
