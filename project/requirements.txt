@@ -46,7 +46,7 @@ sqlparse==0.5.0
 stravalib==1.7
 timezonefinder==6.2.0
 typing-extensions==4.12.2
-urllib3==1.26.18
+urllib3==1.26.19
 uwsgi==2.0.25
 
 # The following packages are considered to be unsafe in a requirements file:
