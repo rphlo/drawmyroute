@@ -26,6 +26,50 @@ const colorIcon = (color) => {
   });
 };
 
+function solveAffineMatrix(r1, s1, t1, r2, s2, t2, r3, s3, t3) {
+  const a =
+    ((t2 - t3) * (s1 - s2) - (t1 - t2) * (s2 - s3)) /
+    ((r2 - r3) * (s1 - s2) - (r1 - r2) * (s2 - s3));
+  const b =
+    ((t2 - t3) * (r1 - r2) - (t1 - t2) * (r2 - r3)) /
+    ((s2 - s3) * (r1 - r2) - (s1 - s2) * (r2 - r3));
+  const c = t1 - r1 * a - s1 * b;
+  return [a, b, c];
+}
+
+function deriveAffineTransform(a, b, c) {
+  const e = 1e-15;
+  a.xy.x -= e;
+  a.xy.y += e;
+  b.xy.x += e;
+  b.xy.y -= e;
+  c.xy.x += e;
+  c.xy.y += e;
+  const x = solveAffineMatrix(
+    a.xy.x,
+    a.xy.y,
+    a.latLonMeters.x,
+    b.xy.x,
+    b.xy.y,
+    b.latLonMeters.x,
+    c.xy.x,
+    c.xy.y,
+    c.latLonMeters.x
+  );
+  const y = solveAffineMatrix(
+    a.xy.x,
+    a.xy.y,
+    a.latLonMeters.y,
+    b.xy.x,
+    b.xy.y,
+    b.latLonMeters.y,
+    c.xy.x,
+    c.xy.y,
+    c.latLonMeters.y
+  );
+  return x.concat(y);
+}
+
 const icons = [
   colorIcon("blue"),
   colorIcon("red"),
@@ -249,42 +293,82 @@ const CalibrationTool = (props) => {
   const [imgDataURI, setImgDataURI] = useState(null);
   const [imgWidth, setImgWidth] = useState(0);
   const [imgHeight, setImgHeight] = useState(0);
+  const [threePointsWarning, set3pointsWarning] = useState(false);
 
   function getCornerCoordinates() {
     const rasterXY = [];
     const worldXY = [];
     const proj = new SpheroidProjection();
-    for (let i = 0; i < 4; i++) {
-      rasterXY[i] = mapRaster.project(markersRaster[i].getLatLng(), 0);
-      worldXY[i] = proj.latlngToMeters(markersWorld[i].getLatLng());
-    }
-    const matrix3d = general2DProjection(
-      rasterXY[0],
-      worldXY[0],
-      rasterXY[1],
-      worldXY[1],
-      rasterXY[2],
-      worldXY[2],
-      rasterXY[3],
-      worldXY[3]
-    );
-    const corners = [
-      project(matrix3d, 0, 0),
-      project(matrix3d, imgWidth, 0),
-      project(matrix3d, imgWidth, imgHeight),
-      project(matrix3d, 0, imgHeight),
-    ];
-    const cornersLatlng = [];
-    for (let i = 0; i < corners.length; i++) {
-      cornersLatlng[i] = proj.metersToLatLng(
-        new Point(corners[i][0], corners[i][1])
+    let cornersLatlng = [];
+    if (markersRaster.length === 4 && markersWorld.length === 4) {
+      for (let i = 0; i < 4; i++) {
+        rasterXY[i] = mapRaster.project(markersRaster[i].getLatLng(), 0);
+        worldXY[i] = proj.latlngToMeters(markersWorld[i].getLatLng());
+      }
+      const matrix3d = general2DProjection(
+        rasterXY[0],
+        worldXY[0],
+        rasterXY[1],
+        worldXY[1],
+        rasterXY[2],
+        worldXY[2],
+        rasterXY[3],
+        worldXY[3]
       );
+      const corners = [
+        project(matrix3d, 0, 0),
+        project(matrix3d, imgWidth, 0),
+        project(matrix3d, imgWidth, imgHeight),
+        project(matrix3d, 0, imgHeight),
+      ];
+      for (let i = 0; i < corners.length; i++) {
+        cornersLatlng[i] = proj.metersToLatLng(
+          new Point(corners[i][0], corners[i][1])
+        );
+      }
+    } else if (markersRaster.length >= 3 && markersWorld.length >= 3) {
+      const calPts = [];
+      for (var i = 0; i < 3; i++) {
+        rasterXY[i] = mapRaster.project(markersRaster[i].getLatLng(), 0);
+        worldXY[i] = proj.latlngToMeters(markersWorld[i].getLatLng());
+        calPts.push({
+          latLonMeters: worldXY[i],
+          xy: rasterXY[i],
+        });
+      }
+      const xyToLatLngMetersCoeffs = deriveAffineTransform(...calPts);
+      function mapXYtoLatLng(xy) {
+        const x =
+          xy.x * xyToLatLngMetersCoeffs[0] +
+          xy.y * xyToLatLngMetersCoeffs[1] +
+          xyToLatLngMetersCoeffs[2];
+        const y =
+          xy.x * xyToLatLngMetersCoeffs[3] +
+          xy.y * xyToLatLngMetersCoeffs[4] +
+          xyToLatLngMetersCoeffs[5];
+        return proj.metersToLatLng(new Point(x, y));
+      }
+      cornersLatlng = [
+        mapXYtoLatLng(new Point(0, 0)),
+        mapXYtoLatLng(new Point(imgWidth, 0)),
+        mapXYtoLatLng(new Point(imgWidth, imgHeight)),
+        mapXYtoLatLng(new Point(0, imgHeight)),
+      ];
     }
     return cornersLatlng;
   }
 
   useEffect(() => {
-    if (markersRaster.length === 4 && markersWorld.length === 4) {
+    if (
+      markersWorld.length >= 3 &&
+      markersRaster.length >= 3 &&
+      !(markersWorld.length === 4 && markersRaster.length === 4)
+    ) {
+      set3pointsWarning(true);
+    } else {
+      set3pointsWarning(false);
+    }
+    if (markersRaster.length >= 3 && markersWorld.length >= 3) {
       setIsReady(true);
     } else {
       setIsReady(false);
@@ -419,6 +503,9 @@ const CalibrationTool = (props) => {
             </button>
           </div>
         </div>
+        {threePointsWarning && (<div class="alert alert-info" role="alert">
+          <span>You have set 3 matching reference points, this may be enough and you may continue to the next step, however we recommend to set a 4th reference point if the map image has been captured from a camera.</span>
+        </div>)}
         <div className="row">
           <div className="col-md-12">
             <button
