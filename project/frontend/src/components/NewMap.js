@@ -466,11 +466,12 @@ function NewMap() {
             <>
               <h1>Map Image File</h1>
               <ImageDropzone onDrop={onDropImg} />
+              <hr/>
+              <LiveloxPicker onSubmit={onDropImg}></LiveloxPicker>
+              <hr/>
               <button className="btn btn-danger" onClick={onRestart}>
                 <i className="fas fa-undo"></i> Back
               </button>
-              <hr/>
-              <LiveloxPicker onSubmit={onDropImg}></LiveloxPicker>
             </>
           )}
           {(drawRoute || route) && mapDataURL && !mapCornersCoords && (
