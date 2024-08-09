@@ -35,7 +35,7 @@ function LiveloxPicker(props) {
         <div>
             <form onSubmit={onSubmit}>
             <div className="mb-3">
-                <label className="form-label"><a href="https://livelox.com" target="_blank" rel="noopener noreferrer"><img alt="livelox" src={logo} width="100"/></a><a className="ml-3" href="https://gps.tulospalvelu.fi" target="_blank" rel="noopener noreferrer"><img alt="gpsseuranta" src={logo2} width="100"/></a></label>
+                <label className="form-label"><a href="https://livelox.com" target="_blank" rel="noopener noreferrer"><img alt="livelox" src={logo} height="40"/></a><a className="ml-3" href="https://gps.tulospalvelu.fi" target="_blank" rel="noopener noreferrer"><img style={{verticalAlign: "bottom"}}alt="gpsseuranta" src={logo2} height="30"/></a></label>
                 <input className={"form-control" + (urlOK ? "" : " is-invalid")} placeholder="Livelox or GPSSeuranta URL" onChange={onChangeURL} name="url" required={true}></input>
                 { !urlOK && (<div className="invalid-feedback">
                     Invalid livelox or gpsseuranta event URL!
