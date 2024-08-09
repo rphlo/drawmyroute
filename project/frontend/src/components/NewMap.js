@@ -9,6 +9,7 @@ import GPXDropzone from "./GPXDrop";
 import ImageDropzone from "./ImgDrop";
 import RouteDrawing from "./RouteDrawing";
 import PathDrawing from "./PathDrawing";
+import LiveloxPicker from "./LiveloxPicker";
 import StravaPicker from "./StravaPicker";
 import CornerCoordsInput from "./CornerCoordsInput";
 import useGlobalState from "../utils/useGlobalState";
@@ -468,6 +469,8 @@ function NewMap() {
               <button className="btn btn-danger" onClick={onRestart}>
                 <i className="fas fa-undo"></i> Back
               </button>
+              <hr/>
+              <LiveloxPicker onSubmit={onDropImg}></LiveloxPicker>
             </>
           )}
           {(drawRoute || route) && mapDataURL && !mapCornersCoords && (
