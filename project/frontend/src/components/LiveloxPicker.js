@@ -29,7 +29,7 @@ function LiveloxPicker(props) {
         <div>
             <form onSubmit={onSubmit}>
             <div className="mb-3">
-                <label className="form-label"><img alt="livelox" src={logo} width="100"/></label>
+                <label className="form-label"><a href="https://livelox.com" target="_blank" rel="noopener noreferrer"><img alt="livelox" src={logo} width="100"/></a></label>
                 <input className={"form-control" + (urlOK ? "" : " is-invalid")} placeholder="Livelox URL" onChange={onChangeURL} name="url" required={true}></input>
                 { !urlOK && (<div className="invalid-feedback">
                     Invalid livelox event URL!
