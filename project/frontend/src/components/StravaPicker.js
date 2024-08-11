@@ -13,6 +13,7 @@ const Settings = (props) => {
   const [stravaToken, setStravaToken] = React.useState();
   const [act, setAct] = React.useState([]);
   const [loading, setLoading] = React.useState();
+  const [page, setPage] = React.useState(1);
   React.useEffect(() => {
     if (api_token) {
       (async () => {
@@ -45,7 +46,7 @@ const Settings = (props) => {
         setLoading(true);
         try {
           const routesRaw = await fetch(
-            "https://www.strava.com/api/v3/athlete/activities?per_page=10",
+            "https://www.strava.com/api/v3/athlete/activities?per_page=10&page=" + page,
             {
               headers: {
                 "Content-Type": "application/json",
@@ -62,7 +63,7 @@ const Settings = (props) => {
         }
       }
     })();
-  }, [stravaToken]);
+  }, [stravaToken, page]);
 
   if (!stravaToken) {
     const url = "https://www.strava.com/oauth/authorize";
@@ -161,6 +162,7 @@ const Settings = (props) => {
           </h3>
         </center>
       ) : (
+        <>
         <table className="table table-striped table-hover">
           <thead className="thead-dark">
             <tr>
@@ -184,6 +186,9 @@ const Settings = (props) => {
             ))}
           </tbody>
         </table>
+        <button type="button" className="btn" onClick={() => setPage((p) => (p-1))} disabled={page === 1}><i className="fa fa-chevron-left"></i></button>
+        <button type="button" className="btn" onClick={() => setPage((p) => (p+1))}><i className="fa fa-chevron-right"></i></button>
+        </>
       )}
     </>
   );
