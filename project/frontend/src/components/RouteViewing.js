@@ -234,7 +234,7 @@ const RouteViewing = (props) => {
     if (webShareApiAvailable) {
       try {
         navigator
-          .share({ url: document.location.href })
+          .share({ url: "https://mapdu.mp/r/" + props.id })
           .then(() => {})
           .catch(() => {});
       } catch (e) {}
@@ -505,7 +505,7 @@ const RouteViewing = (props) => {
         </div>
         {shareModalOpen && (
           <ShareModal
-            url={document.location.href}
+            url={"https://mapdu.mp/r/" + props.id}
             onClose={() => setShareModalOpen(false)}
           />
         )}

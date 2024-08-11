@@ -249,7 +249,7 @@ const RouteReplay = (props) => {
     if (webShareApiAvailable) {
       try {
         navigator
-          .share({ url: document.location.href })
+          .share({ url: "https://mapdu.mp/r/" + props.id })
           .then(() => {})
           .catch(() => {});
       } catch (e) {}
@@ -349,7 +349,7 @@ const RouteReplay = (props) => {
       )}
       {shareModalOpen && (
         <ShareModal
-          url={document.location.href}
+        url={"https://mapdu.mp/r/" + props.id}
           onClose={() => setShareModalOpen(false)}
         />
       )}
