@@ -1,7 +1,17 @@
-import * as Le from "leaflet";
 (function (factory) {
-  factory(Le);
-})(function (L) {
+  if (typeof define === 'function' && define.amd) {
+    //AMD
+    define(['leaflet'], factory);
+  } else if (typeof module !== 'undefined') {
+    // Node/CommonJS
+    module.exports = factory(require('leaflet'));
+  } else {
+    // Browser globals
+    if (typeof window.L === 'undefined')
+      throw 'Leaflet must be loaded first';
+    factory(window.L);
+  }
+  })(function (L) {
   L.ImageTransform = L.ImageOverlay.extend({
     initialize: function (url, anchors, options) {
       // (String, LatLngBounds, Object)
