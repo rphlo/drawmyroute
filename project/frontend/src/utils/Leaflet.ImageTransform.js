@@ -1,14 +1,6 @@
+import * as Le from "leaflet";
 (function (factory) {
-  if (typeof module !== "undefined") {
-    // Node/CommonJS
-    module.exports = factory(require("leaflet"));
-  } else {
-    // Browser globals
-    if (typeof window.L === "undefined") {
-      throw new Error("Leaflet must be loaded first");
-    }
-    factory(window.L);
-  }
+  factory(Le);
 })(function (L) {
   L.ImageTransform = L.ImageOverlay.extend({
     initialize: function (url, anchors, options) {
