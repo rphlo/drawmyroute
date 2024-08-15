@@ -17,7 +17,7 @@ import {
   validateCornersCoords,
 } from "../utils/fileHelpers";
 import { parseTCXString } from "../utils/tcxParser";
-import { LatLng } from "../utils";
+import { LatLng, bytesToBase64 } from "../utils";
 
 const pdfjsWorker = import('pdfjs-dist/build/pdf.worker.entry')
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
@@ -217,19 +217,18 @@ function NewMap() {
         const latLonboxElNodes = go.getElementsByTagName("LatLonBox");
         const latLonQuadElNodes = go.getElementsByTagName("gx:LatLonQuad");
         const filePath = go.getElementsByTagName("href")[0].innerHTML;
-        const fileU8 = await kmz.file(filePath).async("uint8array");
-        let buff = fileU8;
+        const buff = await kmz.file(filePath).async("uint8array");
         const filename = kmz.file(filePath).name;
         const extension = filename.toLowerCase().split(".").pop();
         let mime = "";
+        console.log(extension)
         if (extension === "jpg") {
           mime = "image/jpeg";
         } else if (["png", "gif", "jpeg", "webp", "avif"].includes(extension)) {
           mime = "image/" + extension;
         }
-        const imageDataURI =
-          "data:" + mime + ";base64," + btoa(buff);
-          let bounds;
+        const imageDataURI = "data:" + mime + ";base64," + bytesToBase64(buff);
+        let bounds;
         if (latLonboxElNodes.length) {
           const latLonboxEl = latLonboxElNodes[0];
           bounds = computeBoundsFromLatLonBox(
@@ -273,7 +272,6 @@ function NewMap() {
           imageDataURI,
         };
       } catch (e) {
-        throw e;
         Swal.fire({
           title: "Error!",
           text: "Error parsing your KMZ file!",
