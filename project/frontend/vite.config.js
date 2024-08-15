@@ -6,7 +6,7 @@ export default defineConfig({
   base: '/',
   build: {
     outDir: 'build',
-    assetsDir: 'static/assets',
+    assetsDir: 'static',
   },
   plugins: [react()],
   define: {
