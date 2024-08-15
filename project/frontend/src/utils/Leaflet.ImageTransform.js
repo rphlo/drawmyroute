@@ -1,6 +1,6 @@
 import * as L from "leaflet";
 
-L.ImageTransform = L.ImageOverlay.extend({
+L.ImageOverlay.ImageTransform = L.ImageOverlay.extend({
     initialize: function (url, anchors, options) {
       // (String, LatLngBounds, Object)
       L.ImageOverlay.prototype.initialize.call(this, url, anchors, options);
@@ -194,7 +194,7 @@ L.ImageTransform = L.ImageOverlay.extend({
       div.style.height = size.y + "px";
 
       var matrix3d = (this._matrix3d =
-        L.ImageTransform.Utils.general2DProjection(
+        L.ImageOverlay.ImageTransform.Utils.general2DProjection(
           0,
           0,
           pixels[0].x,
@@ -223,7 +223,7 @@ L.ImageTransform = L.ImageOverlay.extend({
         matrix3d[i] = matrix3d[i] / matrix3d[8];
       }
 
-      this._matrix3dInverse = L.ImageTransform.Utils.adj(matrix3d);
+      this._matrix3dInverse = L.ImageOverlay.ImageTransform.Utils.adj(matrix3d);
 
       imgNode.style[L.DomUtil.TRANSFORM] = this._getMatrix3dCSS(this._matrix3d);
       if (this.options.clip) {
@@ -251,7 +251,7 @@ L.ImageTransform = L.ImageOverlay.extend({
                   ? [ring[p][1], ring[p][0]]
                   : ring[p];
               mp = this._latLngToLayerPoint(tp);
-              pixel = L.ImageTransform.Utils.project(
+              pixel = L.ImageOverlay.ImageTransform.Utils.project(
                 this._matrix3dInverse,
                 mp.x - topLeft.x,
                 mp.y - topLeft.y
@@ -259,7 +259,7 @@ L.ImageTransform = L.ImageOverlay.extend({
               arr.push(L.point(pixel[0], pixel[1]));
             } else {
               pixel = ring[p];
-              tp = L.ImageTransform.Utils.project(
+              tp = L.ImageOverlay.ImageTransform.Utils.project(
                 this._matrix3d,
                 pixel.x,
                 pixel.y
@@ -341,12 +341,12 @@ L.ImageTransform = L.ImageOverlay.extend({
     },
   });
 
-  L.imageTransform = function (url, bounds, options) {
-    return new L.ImageTransform(url, bounds, options);
+  L.ImageOverlay.imageTransform = function (url, bounds, options) {
+    return new L.ImageOverlay.ImageTransform(url, bounds, options);
   };
-  L.ImageTransform.addInitHook(function () {
+  L.ImageOverlay.ImageTransform.addInitHook(function () {
     if (L.Mixin.ContextMenu) {
-      L.ImageTransform.include(L.Mixin.ContextMenu);
+      L.ImageOverlay.ImageTransform.include(L.Mixin.ContextMenu);
     }
   });
 
@@ -405,7 +405,7 @@ L.ImageTransform = L.ImageOverlay.extend({
       return multmm(m, [v[0], 0, 0, 0, v[1], 0, 0, 0, v[2]]);
     }
 
-    L.ImageTransform.Utils = {
+    L.ImageOverlay.ImageTransform.Utils = {
       general2DProjection: function (
         x1s,
         y1s,

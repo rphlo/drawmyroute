@@ -235,7 +235,7 @@ const CalibrationPreview = (props) => {
       zoomSnap: 0,
       scrollWheelZoom: true,
     }).fitBounds(cornersCoordinates);
-    const transformedImage = L.imageTransform(imgDataURI, cornersCoordinates, {
+    const transformedImage = L.ImageOverlay.imageTransform(imgDataURI, cornersCoordinates, {
       opacity: 0.7,
     });
     transformedImage.addTo(tmpMapPreview);
