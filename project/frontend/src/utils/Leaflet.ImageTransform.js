@@ -1,10 +1,12 @@
+import * as Le from "leaflet";
 (function (factory) {
   if (typeof define === 'function' && define.amd) {
     //AMD
     define(['leaflet'], factory);
   } else if (typeof module !== 'undefined') {
-    // Node/CommonJS
-    module.exports = factory(require('leaflet'));
+    // Node/CommonJS(
+    
+    module.exports = factory(Le);
   } else {
     // Browser globals
     if (typeof window.L === 'undefined')
