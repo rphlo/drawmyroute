@@ -28,7 +28,7 @@ class Command(BaseCommand):
         )
 
         subprocess.check_output(
-            [settings.YARN_PATH, "build", "--production"], cwd=client_dir, env=env
+            [settings.YARN_PATH, "build"], cwd=client_dir, env=env
         )
 
         self.stdout.write("Collecting static files ...")
