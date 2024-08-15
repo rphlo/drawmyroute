@@ -95,7 +95,7 @@ const RouteHeader = (props) => {
     setSaving(true);
     try {
       const response = await fetch(
-        process.env.REACT_APP_API_URL + "/v1/route/" + props.id,
+        import.meta.env.VITE_API_URL + "/v1/route/" + props.id,
         {
           method: "PATCH",
           credentials: "omit",
@@ -127,7 +127,7 @@ const RouteHeader = (props) => {
     setSaving(true);
     try {
       const response = await fetch(
-        process.env.REACT_APP_API_URL + "/v1/route/" + props.id,
+        import.meta.env.VITE_API_URL + "/v1/route/" + props.id,
         {
           method: "PATCH",
           credentials: "omit",
@@ -159,7 +159,7 @@ const RouteHeader = (props) => {
     setSaving(true);
     try {
       const response = await fetch(
-        process.env.REACT_APP_API_URL + "/v1/route/" + props.id,
+        import.meta.env.VITE_API_URL + "/v1/route/" + props.id,
         {
           method: "PATCH",
           credentials: "omit",
@@ -196,7 +196,7 @@ const RouteHeader = (props) => {
       confirmButtonText: "Delete",
     });
     if (isConfirmed) {
-      await fetch(process.env.REACT_APP_API_URL + "/v1/route/" + props.id, {
+      await fetch(import.meta.env.VITE_API_URL + "/v1/route/" + props.id, {
         method: "DELETE",
         credentials: "omit",
         headers: {
@@ -255,7 +255,7 @@ const RouteHeader = (props) => {
           <div style={{ marginRight: "10px", textAlign: "center" }}>
             <img
               src={
-                process.env.REACT_APP_AVATAR_ROOT +
+                import.meta.env.VITE_AVATAR_ROOT +
                 "/athletes/" +
                 props.athlete.username +
                 ".png"

@@ -1,4 +1,4 @@
-var Coordinates = function (c) {
+export const Coordinates = function (c) {
   if (!(this instanceof Coordinates)) return new Coordinates(c);
   this.latitude = c.latitude;
   this.longitude = c.longitude;
@@ -19,7 +19,7 @@ var Coordinates = function (c) {
   };
 };
 
-var Position = function (l) {
+export const Position = function (l) {
   if (!(this instanceof Position)) return new Position(l);
   this.timestamp = l.timestamp;
   this.coords = new Coordinates(l.coords);
@@ -49,7 +49,7 @@ var Position = function (l) {
   };
 };
 
-var PositionArchive = function () {
+export const PositionArchive = function () {
   if (!(this instanceof PositionArchive)) return new PositionArchive();
   var positions = [],
     _locationOf = function (element, start, end) {
@@ -197,6 +197,3 @@ var PositionArchive = function () {
   };
 };
 
-exports.Coordinates = Coordinates;
-exports.Position = Position;
-exports.PositionArchive = PositionArchive;

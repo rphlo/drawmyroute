@@ -83,7 +83,7 @@ const Avatar = () => {
     e.preventDefault();
     const postData = { avatar_base64: avatar };
     const res = await fetch(
-      process.env.REACT_APP_API_URL + "/v1/auth/user/settings/",
+      import.meta.env.VITE_API_URL + "/v1/auth/user/settings/",
       {
         method: "PATCH",
         credentials: "omit",
@@ -125,7 +125,7 @@ const Avatar = () => {
               <AvatarUploader
                 onImageChange={onAvatar}
                 size={150}
-                defaultImg={`${process.env.REACT_APP_AVATAR_ROOT}/athletes/${_username}.png`}
+                defaultImg={`${import.meta.env.VITE_AVATAR_ROOT}/athletes/${_username}.png`}
                 currentImage={avatar}
                 fileType={"image/*"}
               ></AvatarUploader>

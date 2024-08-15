@@ -12,7 +12,7 @@ const VerifyEmail = ({ match, history }) => {
     (async () => {
       if (match.params.key) {
         const res = await fetch(
-          process.env.REACT_APP_API_URL + "/v1/auth/registration/verify-email/",
+          import.meta.env.VITE_API_URL + "/v1/auth/registration/verify-email/",
           {
             method: "POST",
             credentials: "omit",
@@ -43,7 +43,7 @@ const VerifyEmail = ({ match, history }) => {
   const onSubmitResend = async (e) => {
     e.preventDefault();
     await fetch(
-      process.env.REACT_APP_API_URL +
+      import.meta.env.VITE_API_URL +
         "/v1/auth/registration/resend-verification/",
       {
         method: "POST",

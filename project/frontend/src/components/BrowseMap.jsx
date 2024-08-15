@@ -61,7 +61,7 @@ const BrowseMap = () => {
     map.invalidateSize();
 
     (async () => {
-      const res = await fetch(process.env.REACT_APP_API_URL + "/v1/maps/");
+      const res = await fetch(import.meta.env.VITE_API_URL + "/v1/maps/");
       const loadedMaps = await res.json();
       loadedMaps.forEach((m) => {
         const bound = [

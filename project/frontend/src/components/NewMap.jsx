@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import JSZip from "jszip";
 import { pdfjs as pdfjsLib } from "react-pdf";
-import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
 import Swal from "sweetalert2";
 import FitParser from "fit-file-parser";
 import gpxParser from "gpxparser";
@@ -20,6 +19,7 @@ import {
 import { parseTCXString } from "../utils/tcxParser";
 import { LatLng } from "../utils";
 
+const pdfjsWorker = await import('pdfjs-dist/build/pdf.worker.entry')
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 function NewMap() {

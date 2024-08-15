@@ -36,7 +36,7 @@ const DownloadOwnDataBtn = () => {
 
   const downloadOwnData = async () => {
     const res = await fetch(
-      process.env.REACT_APP_API_URL + "/v1/user/" + username
+      import.meta.env.VITE_API_URL + "/v1/user/" + username
     );
     const { routes } = await res.json();
     setRouteCount(routes.length);

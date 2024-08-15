@@ -302,7 +302,7 @@ const RouteViewing = (props) => {
     setSavingCrop(true);
     try {
       const response = await fetch(
-        process.env.REACT_APP_API_URL + "/v1/route/" + props.id,
+        import.meta.env.VITE_API_URL + "/v1/route/" + props.id,
         {
           method: "PATCH",
           credentials: "omit",

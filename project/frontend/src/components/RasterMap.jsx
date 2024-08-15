@@ -47,7 +47,7 @@ const RasterMap = ({ match, history }) => {
         headers.Authorization = "Token " + api_token;
       }
       const res = await fetch(
-        process.env.REACT_APP_API_URL + "/v1/route/" + match.params.uid,
+        import.meta.env.VITE_API_URL + "/v1/route/" + match.params.uid,
         {
           credentials: "omit",
           headers,

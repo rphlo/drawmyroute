@@ -19,7 +19,7 @@ const Register = (props) => {
     e.preventDefault();
     const [uid, token] = props.match.params.key.split(":");
     const res = await fetch(
-      process.env.REACT_APP_API_URL + "/v1/auth/password/reset/confirm/",
+      import.meta.env.VITE_API_URL + "/v1/auth/password/reset/confirm/",
       {
         method: "POST",
         credentials: "omit",

@@ -54,7 +54,7 @@ const UserView = ({ match, history }) => {
         headers.Authorization = "Token " + api_token;
       }
       const res = await fetch(
-        process.env.REACT_APP_API_URL + "/v1/user/" + match.params.username,
+        import.meta.env.VITE_API_URL + "/v1/user/" + match.params.username,
         {
           credentials: "omit",
           headers,
@@ -209,7 +209,7 @@ const UserView = ({ match, history }) => {
           <div style={{ display: "flex", justifyContent: "flex-start" }}>
             <div style={{ marginRight: "15px" }}>
               <img
-                src={`${process.env.REACT_APP_AVATAR_ROOT}/athletes/${data.username}.png`}
+                src={`${import.meta.env.VITE_AVATAR_ROOT}/athletes/${data.username}.png`}
                 alt="avatar"
                 style={{ borderRadius: "50%" }}
                 height="75px"
@@ -227,7 +227,7 @@ const UserView = ({ match, history }) => {
                 </Link>{" "}
                 <a
                   href={
-                    process.env.REACT_APP_API_URL +
+                    import.meta.env.VITE_API_URL +
                     "/v1/user/" +
                     match.params.username +
                     "/feed/"
@@ -351,7 +351,7 @@ const UserView = ({ match, history }) => {
                         >
                           <img
                             src={
-                              process.env.REACT_APP_AVATAR_ROOT +
+                              import.meta.env.VITE_AVATAR_ROOT +
                               "/athletes/" +
                               data.username +
                               ".png"

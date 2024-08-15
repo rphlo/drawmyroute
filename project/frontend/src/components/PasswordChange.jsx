@@ -15,7 +15,7 @@ const PasswordChange = (props) => {
     setChanged(false);
 
     const res = await fetch(
-      process.env.REACT_APP_API_URL + "/v1/auth/password/change/",
+      import.meta.env.VITE_API_URL + "/v1/auth/password/change/",
       {
         method: "POST",
         credentials: "omit",

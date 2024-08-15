@@ -18,7 +18,7 @@ const UserDeletion = () => {
     if (!isConfirmed) {
       return;
     }
-    await fetch(process.env.REACT_APP_API_URL + "/v1/auth/user/", {
+    await fetch(import.meta.env.VITE_API_URL + "/v1/auth/user/", {
       method: "DELETE",
       credentials: "omit",
       headers: {

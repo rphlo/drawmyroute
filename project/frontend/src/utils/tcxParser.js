@@ -1,15 +1,6 @@
-///////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//        File: tcx.js
-//
-// Description: Module of functions for handling Garmin's TCX format. The tags handled here
-//              are in no way complete.
-//
-///////////////////////////////////////////////////////////////////////////////////////////////////
+import sax from "sax";
 
-var sax = require("sax");
-
-var parseTCXString = function (xmlstr, cb) {
+export const parseTCXString = function (xmlstr, cb) {
   var parser = sax.parser(true);
 
   var currentWorkout = {};
@@ -197,4 +188,3 @@ var parseTCXString = function (xmlstr, cb) {
   parser.write(xmlstr).end();
 };
 
-exports.parseTCXString = parseTCXString;

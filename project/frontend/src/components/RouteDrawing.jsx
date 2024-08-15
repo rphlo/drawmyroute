@@ -227,7 +227,7 @@ const RouteDrawing = (props) => {
         }
         try {
           const response = await fetch(
-            process.env.REACT_APP_API_URL + "/v1/routes/new",
+            import.meta.env.VITE_API_URL + "/v1/routes/new",
             {
               method: "POST",
               credentials: "omit",

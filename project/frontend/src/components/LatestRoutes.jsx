@@ -22,7 +22,7 @@ const LatestRoute = (props) => {
 
   React.useEffect(() => {
     nextPage.current =
-      process.env.REACT_APP_API_URL +
+      import.meta.env.VITE_API_URL +
       (props?.tag ? "/v1/routes-by-tag/" + props.tag : "/v1/latest-routes/");
   }, [props.tag]);
 
@@ -78,7 +78,7 @@ const LatestRoute = (props) => {
           ? 'Routes tagged "' + props.tag + '"'
           : "Latest Routes on Mapdump.com "}
         {!props?.tag && (
-          <a href={process.env.REACT_APP_API_URL + "/v1/latest-routes/feed/"}>
+          <a href={import.meta.env.VITE_API_URL + "/v1/latest-routes/feed/"}>
             <i className="fa fa-rss" title="RSS"></i>
           </a>
         )}
@@ -125,7 +125,7 @@ const LatestRoute = (props) => {
                         >
                           <img
                             src={
-                              process.env.REACT_APP_AVATAR_ROOT +
+                              import.meta.env.VITE_AVATAR_ROOT +
                               "/athletes/" +
                               r.athlete.username +
                               ".png"

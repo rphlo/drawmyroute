@@ -1,6 +1,6 @@
-const { DateTime } = require("luxon");
+import { DateTime } from "luxon";
 
-const Point = (() => {
+export const Point = (() => {
   function P(x, y) {
     this.x = x;
     this.y = y;
@@ -8,7 +8,7 @@ const Point = (() => {
   return P;
 })();
 
-const LatLng = (() => {
+export const LatLng = (() => {
   function L(lat, lng) {
     this.lat = lat;
     this.lng = lng;
@@ -27,7 +27,7 @@ const LatLng = (() => {
   return L;
 })();
 
-const SpheroidProjection = (() => {
+export const SpheroidProjection = (() => {
   const pi = Math.PI,
     float180 = 180.0,
     rad = 6378137,
@@ -71,7 +71,7 @@ const SpheroidProjection = (() => {
   return S;
 })();
 
-function adjugateMatrix(m) {
+export function adjugateMatrix(m) {
   return [
     m[4] * m[8] - m[5] * m[7],
     m[2] * m[7] - m[1] * m[8],
@@ -99,7 +99,7 @@ function multiplyMatrices(a, b) {
   return c;
 }
 
-function multiplyMatrixByVector(m, v) {
+export function multiplyMatrixByVector(m, v) {
   return [
     m[0] * v[0] + m[1] * v[1] + m[2] * v[2],
     m[3] * v[0] + m[4] * v[1] + m[5] * v[2],
@@ -113,7 +113,7 @@ function basisToPoints(a, b, c, d) {
   return multiplyMatrices(m, [v[0], 0, 0, 0, v[1], 0, 0, 0, v[2]]);
 }
 
-function general2DProjection(
+export function general2DProjection(
   pt1RefA,
   pt1RefB,
   pt2RefA,
@@ -128,12 +128,12 @@ function general2DProjection(
   return multiplyMatrices(refBMatrix, adjugateMatrix(refAMatrix));
 }
 
-function project(matrix, x, y) {
+export function project(matrix, x, y) {
   var val = multiplyMatrixByVector(matrix, [x, y, 1]);
   return [val[0] / val[2], val[1] / val[2]];
 }
 
-function cornerCalTransform(
+export function cornerCalTransform(
   width,
   height,
   topLeftLatLng,
@@ -164,7 +164,7 @@ function cornerCalTransform(
   };
 }
 
-function getResolution(
+export function getResolution(
   width,
   height,
   topLeftLatLng,
@@ -211,7 +211,7 @@ function getResolution(
   return (resA + resB) / 2;
 }
 
-function cornerBackTransform(
+export function cornerBackTransform(
   width,
   height,
   topLeftLatLng,
@@ -241,7 +241,7 @@ function cornerBackTransform(
   };
 }
 
-const dataURItoBlob = (dataURI) => {
+export const dataURItoBlob = (dataURI) => {
   // convert base64/URLEncoded data component to raw binary data held in a string
   var byteString;
   if (dataURI.split(",")[0].indexOf("base64") >= 0)
@@ -260,11 +260,11 @@ const dataURItoBlob = (dataURI) => {
   return new Blob([ia], { type: mimeString });
 };
 
-const capitalizeFirstLetter = (string) => {
+export const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-const displayDate = (date) => {
+export const displayDate = (date) => {
   if (
     date.startOf("day").diff(DateTime.local().startOf("day"), "days").days < -1
   ) {
@@ -281,9 +281,9 @@ const displayDate = (date) => {
   );
 };
 
-const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
+export const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
 
-const getFlagEmoji = (countryCode) => {
+export const getFlagEmoji = (countryCode) => {
   const codePoints = countryCode
     .toUpperCase()
     .split("")
@@ -291,7 +291,7 @@ const getFlagEmoji = (countryCode) => {
   return String.fromCodePoint(codePoints[0], codePoints[1]);
 };
 
-const resetOrientation = (src, callback) => {
+export const resetOrientation = (src, callback) => {
   var img = new Image();
   img.crossOrigin = "anonymous";
   img.onload = function () {
@@ -320,7 +320,7 @@ const resetOrientation = (src, callback) => {
   img.src = src;
 };
 
-const needFlagsEmojiPolyfill = (function () {
+export const needFlagsEmojiPolyfill = (function () {
   function checkPixelInImageDataArray(e, t) {
     const n = 4 * e,
       a = t[n + 0] || t[n + 1] || t[n + 2],
@@ -348,20 +348,3 @@ const needFlagsEmojiPolyfill = (function () {
   return ifEmoji("😀") && !ifEmoji("🇨🇭");
 })();
 
-module.exports = {
-  Point,
-  LatLng,
-  SpheroidProjection,
-  cornerCalTransform,
-  cornerBackTransform,
-  dataURItoBlob,
-  general2DProjection,
-  project,
-  getResolution,
-  capitalizeFirstLetter,
-  displayDate,
-  regionNames,
-  getFlagEmoji,
-  resetOrientation,
-  needFlagsEmojiPolyfill,
-};

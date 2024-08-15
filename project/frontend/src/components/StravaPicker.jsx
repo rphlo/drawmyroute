@@ -18,7 +18,7 @@ const Settings = (props) => {
     if (api_token) {
       (async () => {
         const res = await fetch(
-          process.env.REACT_APP_API_URL + "/v1/strava/token",
+          import.meta.env.VITE_API_URL + "/v1/strava/token",
           {
             method: "GET",
             headers: {
@@ -68,10 +68,10 @@ const Settings = (props) => {
   if (!stravaToken) {
     const url = "https://www.strava.com/oauth/authorize";
     const qp = new URLSearchParams();
-    qp.set("client_id", process.env.REACT_APP_STRAVA_CLIENT_ID);
+    qp.set("client_id", import.meta.env.VITE_STRAVA_CLIENT_ID);
     qp.set(
       "redirect_uri",
-      process.env.REACT_APP_API_URL +
+      import.meta.env.VITE_API_URL +
         "/v1/strava/authorization?auth_token=" +
         api_token
     );

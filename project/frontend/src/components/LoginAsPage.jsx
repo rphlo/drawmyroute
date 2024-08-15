@@ -11,7 +11,7 @@ const LoginAsPage = (props) => {
       if (api_token) {
         console.log(api_token);
         const res = await fetch(
-          process.env.REACT_APP_API_URL + "/v1/auth/user/",
+          import.meta.env.VITE_API_URL + "/v1/auth/user/",
           {
             method: "GET",
             headers: {

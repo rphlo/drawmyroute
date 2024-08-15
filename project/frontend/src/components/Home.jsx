@@ -15,7 +15,7 @@ const Home = () => {
     if (api_token) {
       (async () => {
         const res = await fetch(
-          process.env.REACT_APP_API_URL + "/v1/auth/user/",
+          import.meta.env.VITE_API_URL + "/v1/auth/user/",
           {
             method: "GET",
             headers: {
@@ -47,7 +47,7 @@ const Home = () => {
               <div style={{ textAlign: "center" }}>
                 <img
                   src={
-                    process.env.REACT_APP_AVATAR_ROOT +
+                    import.meta.env.VITE_AVATAR_ROOT +
                     "/athletes/" +
                     username +
                     ".png"

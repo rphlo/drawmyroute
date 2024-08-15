@@ -25,7 +25,7 @@ const Register = (props) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     const confirmationKey = props.match.params.key;
-    const res = await fetch(process.env.REACT_APP_API_URL + "/v1/auth/user/", {
+    const res = await fetch(import.meta.env.VITE_API_URL + "/v1/auth/user/", {
       method: "DELETE",
       credentials: "omit",
       headers: {

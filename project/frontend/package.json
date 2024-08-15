@@ -1,6 +1,7 @@
 {
   "name": "mapdump",
   "version": "2021062900",
+  "type": "module",
   "private": true,
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
@@ -10,6 +11,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@vitejs/plugin-react-swc": "^3.7.0",
     "copy-text-to-clipboard": "^2.1.1",
     "file-saver": "^2.0.2",
     "fit-file-parser": "^1.9.3",
@@ -18,10 +20,10 @@
     "leaflet": "^1.9.4",
     "luxon": "^2.5.2",
     "prop-types": "^15.8.1",
-    "react": "^17.0.2",
+    "react": "^18.1.0",
     "react-avatar-uploader": "https://github.com/rphlo/react-avatar-uploader",
     "react-calendar-heatmap": "https://github.com/rphlo/react-calendar-heatmap",
-    "react-dom": "^17.0.2",
+    "react-dom": "^18.1.0",
     "react-dropzone": "^10.2.1",
     "react-helmet": "^5.2.1",
     "react-input-slider": "^5.1.4",
@@ -30,12 +32,12 @@
     "react-range-slider-input": "^3.0.7",
     "react-router-dom": "^5.1.2",
     "react-router-navigation-prompt": "^1.9.6",
-    "react-scripts": "4",
     "react-tooltip": "^3.11.2",
-    "sax": "^1.2.4",
+    "sax": "^1.4.1",
     "styled-components": "^5.3.5",
     "sweetalert2": "^11.1.2",
     "vanilla-lazyload": "^13.0.1",
+    "vite": "^5.4.0",
     "web-vitals": "^2.0.1",
     "workbox-core": "^6.1.5",
     "workbox-expiration": "^6.1.5",
@@ -45,13 +47,8 @@
     "worker-loader": "^3.0.8"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "GENERATE_SOURCEMAP=false react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "start": "vite",
+    "build": "vite build"
   },
   "browserslist": {
     "production": [

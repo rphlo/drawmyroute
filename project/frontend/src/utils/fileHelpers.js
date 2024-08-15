@@ -1,5 +1,5 @@
-const JSZip = require("jszip");
-const { saveAs } = require("file-saver");
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 
 const getKml = (name, corners_coords) => {
   return `<?xml version="1.0" encoding="utf-8"?>
@@ -26,7 +26,7 @@ const getKml = (name, corners_coords) => {
 </kml>`;
 };
 
-const getKMZ = (name, bound, imgBlob) => {
+export const getKMZ = (name, bound, imgBlob) => {
   var zip = new JSZip();
   zip.file("doc.kml", getKml(name, bound));
   var img = zip.folder("files");
@@ -34,7 +34,7 @@ const getKMZ = (name, bound, imgBlob) => {
   return zip;
 };
 
-const saveKMZ = (filename, name, bound, imgBlob) => {
+export const saveKMZ = (filename, name, bound, imgBlob) => {
   var zip = getKMZ(name, bound, imgBlob);
   zip
     .generateAsync({
@@ -46,7 +46,7 @@ const saveKMZ = (filename, name, bound, imgBlob) => {
     });
 };
 
-const extractCornersCoordsFromFilename = (filename) => {
+export const extractCornersCoordsFromFilename = (filename) => {
   const re = /(_[-]?\d+(\.\d+)?){8}_\.(gif|png|jpg|jpeg|webp|avif)$/i;
   const found = filename.match(re);
   if (!found) {
@@ -59,13 +59,6 @@ const extractCornersCoordsFromFilename = (filename) => {
   }
 };
 
-const validateCornersCoords = (coords) => {
+export const validateCornersCoords = (coords) => {
   return coords.match(/^[-]?\d+(\.\d+)?(,[-]?\d+(\.\d+)?){7}$/);
-};
-
-module.exports = {
-  extractCornersCoordsFromFilename,
-  validateCornersCoords,
-  saveKMZ,
-  getKMZ,
 };

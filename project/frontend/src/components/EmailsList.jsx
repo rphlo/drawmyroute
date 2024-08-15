@@ -11,7 +11,7 @@ const EmailItem = (props) => {
   const makePrimary = async (e) => {
     e.preventDefault();
     const res = await fetch(
-      process.env.REACT_APP_API_URL + "/v1/auth/emails/" + email,
+      import.meta.env.VITE_API_URL + "/v1/auth/emails/" + email,
       {
         method: "PATCH",
         credentials: "omit",
@@ -39,7 +39,7 @@ const EmailItem = (props) => {
     if (!isConfirmed) {
       return;
     }
-    await fetch(process.env.REACT_APP_API_URL + "/v1/auth/emails/" + email, {
+    await fetch(import.meta.env.VITE_API_URL + "/v1/auth/emails/" + email, {
       method: "DELETE",
       credentials: "omit",
       headers: {
@@ -53,7 +53,7 @@ const EmailItem = (props) => {
   const onResend = async (e) => {
     e.preventDefault();
     const res = await fetch(
-      process.env.REACT_APP_API_URL +
+      import.meta.env.VITE_API_URL +
         "/v1/auth/registration/resend-verification/",
       {
         method: "POST",
@@ -132,7 +132,7 @@ const EmailsList = () => {
 
   const fetchEmails = async () => {
     const res = await fetch(
-      process.env.REACT_APP_API_URL + "/v1/auth/emails/",
+      import.meta.env.VITE_API_URL + "/v1/auth/emails/",
       {
         method: "GET",
         headers: {
@@ -155,7 +155,7 @@ const EmailsList = () => {
   const addEmail = async (e) => {
     e.preventDefault();
     const res = await fetch(
-      process.env.REACT_APP_API_URL + "/v1/auth/emails/",
+      import.meta.env.VITE_API_URL + "/v1/auth/emails/",
       {
         method: "POST",
         credentials: "omit",
