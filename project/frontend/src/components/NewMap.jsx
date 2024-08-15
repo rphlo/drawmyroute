@@ -19,7 +19,7 @@ import {
 import { parseTCXString } from "../utils/tcxParser";
 import { LatLng } from "../utils";
 
-const pdfjsWorker = await import('pdfjs-dist/build/pdf.worker.entry')
+const pdfjsWorker = import('pdfjs-dist/build/pdf.worker.entry')
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 function NewMap() {
