@@ -1,20 +1,6 @@
-import * as Le from "leaflet";
-(function (factory) {
-  if (typeof define === 'function' && define.amd) {
-    //AMD
-    define(['leaflet'], factory);
-  } else if (typeof module !== 'undefined') {
-    // Node/CommonJS(
-    
-    module.exports = factory(Le);
-  } else {
-    // Browser globals
-    if (typeof window.L === 'undefined')
-      throw 'Leaflet must be loaded first';
-    factory(window.L);
-  }
-  })(function (L) {
-  L.ImageTransform = L.ImageOverlay.extend({
+import * as L from "leaflet";
+
+L.ImageTransform = L.ImageOverlay.extend({
     initialize: function (url, anchors, options) {
       // (String, LatLngBounds, Object)
       L.ImageOverlay.prototype.initialize.call(this, url, anchors, options);
@@ -450,4 +436,3 @@ import * as Le from "leaflet";
       adj: adj,
     };
   })();
-});

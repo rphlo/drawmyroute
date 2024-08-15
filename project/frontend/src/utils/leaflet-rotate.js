@@ -1,15 +1,4 @@
-(function (factory) {
-  if (typeof module !== "undefined") {
-    // Node/CommonJS
-    module.exports = factory(require("leaflet"));
-  } else {
-    // Browser globals
-    if (typeof window.L === "undefined") {
-      throw new Error("Leaflet must be loaded first");
-    }
-    factory(window.L);
-  }
-})(function (L) {
+import * as L from "leaflet";
   /**
    * @external L.DomUtil
    *
@@ -2101,4 +2090,3 @@
       this.addControl(this.rotateControl);
     }
   });
-});
