@@ -218,7 +218,7 @@ function NewMap() {
         const latLonQuadElNodes = go.getElementsByTagName("gx:LatLonQuad");
         const filePath = go.getElementsByTagName("href")[0].innerHTML;
         const fileU8 = await kmz.file(filePath).async("uint8array");
-        let buff = Buffer.from(fileU8);
+        let buff = fileU8;
         const filename = kmz.file(filePath).name;
         const extension = filename.toLowerCase().split(".").pop();
         let mime = "";
@@ -228,8 +228,8 @@ function NewMap() {
           mime = "image/" + extension;
         }
         const imageDataURI =
-          "data:" + mime + ";base64," + buff.toString("base64");
-        let bounds;
+          "data:" + mime + ";base64," + btoa(buff);
+          let bounds;
         if (latLonboxElNodes.length) {
           const latLonboxEl = latLonboxElNodes[0];
           bounds = computeBoundsFromLatLonBox(
@@ -273,6 +273,7 @@ function NewMap() {
           imageDataURI,
         };
       } catch (e) {
+        throw e;
         Swal.fire({
           title: "Error!",
           text: "Error parsing your KMZ file!",
