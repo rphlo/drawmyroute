@@ -40,8 +40,12 @@ const LatestRoute = (props) => {
           headers,
         });
         const resp = await res.json();
-        setRoutes((routes) => [...routes, ...resp.results]);
-        nextPage.current = resp.next;
+        if (resp.results) {
+          setRoutes((routes) => [...routes, ...resp.results]);
+        }
+        if (resp.next) {
+         nextPage.current = resp.next;
+        }
       }
     } catch {
       // error handling
