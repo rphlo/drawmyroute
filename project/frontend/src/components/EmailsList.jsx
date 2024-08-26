@@ -99,20 +99,20 @@ const EmailItem = (props) => {
       <div className="col-sm">
         {!primary && verified && (
           <>
-            <button onClick={makePrimary} className="btn btn-info">
+            <button type="button" onClick={makePrimary} className="btn btn-info">
               <i className="fas fa-star"></i> Make primary
             </button>{" "}
           </>
         )}
         {!verified && !resent && (
           <>
-            <button onClick={onResend} className="btn btn-warning">
+            <button type="button" onClick={onResend} className="btn btn-warning">
               <i className="fas fa-paper-plane"></i> Resend Verification
             </button>{" "}
           </>
         )}
         {!primary && (
-          <button onClick={onDelete} className="btn btn-danger">
+          <button type="button" onClick={onDelete} className="btn btn-danger">
             <i className="fa fa-trash"></i> Delete
           </button>
         )}

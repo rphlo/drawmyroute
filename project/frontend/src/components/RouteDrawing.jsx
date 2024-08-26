@@ -1,5 +1,4 @@
 import React, { useEffect, useState, createRef } from "react";
-import NavigationPrompt from "react-router-navigation-prompt";
 import Swal from "sweetalert2";
 import { saveAs } from "file-saver";
 import {
@@ -278,7 +277,7 @@ const RouteDrawing = (props) => {
             }
             setSaving(false);
             setSaved(res.id);
-            window.location = "/routes/" + res.id;
+            props.history.push("/routes/" + res.id);
           } else {
             setSaving(false);
             Swal.fire({
@@ -289,6 +288,7 @@ const RouteDrawing = (props) => {
             });
           }
         } catch (e) {
+          console.log(e)
           setSaving(false);
           Swal.fire({
             title: "Error!",
@@ -384,6 +384,7 @@ const RouteDrawing = (props) => {
         </h2>
         <div>
           <button
+            type="button"
             style={{ marginBottom: "5px" }}
             className="btn btn-sm btn-success"
             onClick={downloadMapWithRoute}
@@ -393,6 +394,7 @@ const RouteDrawing = (props) => {
           </button>
           &nbsp;
           <button
+            type="button"
             style={{ marginBottom: "5px" }}
             className="btn btn-sm btn-success"
             data-testid="dl-kmz"
@@ -439,7 +441,8 @@ const RouteDrawing = (props) => {
         {!saved && username && (
           <div style={{ float: "right" }}>
             <button
-              data-testid="saveBtn"
+              type="button"
+              data-testid="saveBtn2"
               className="btn btn-sm btn-secondary"
               onClick={() => onExport(true)}
             >
@@ -449,6 +452,7 @@ const RouteDrawing = (props) => {
               Save as Private
             </button>{" "}
             <button
+              type="button"
               data-testid="saveBtn"
               className="btn btn-sm btn-primary"
               onClick={() => onExport()}
@@ -493,53 +497,6 @@ const RouteDrawing = (props) => {
         )}
       </div>
       <ReactTooltip place="top" />
-      <NavigationPrompt
-        history={props.history}
-        when={saving}
-        afterConfirm={() => {
-          window.onbeforeunload = undefined;
-          return true;
-        }}
-      >
-        {({ onConfirm, onCancel }) => (
-          <div
-            className="modal"
-            role="dialog"
-            style={{ display: "block", zIndex: 1e19 }}
-          >
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-body">
-                  <h3>
-                    Saving is still in progress...
-                    <br />
-                    Are you sure you want to leave the page?
-                  </h3>
-                </div>
-                <div
-                  className="modal-footer"
-                  style={{ display: "block", justifyContent: "initial" }}
-                >
-                  <button
-                    className="btn btn-danger btn-default pull-left"
-                    data-dismiss="modal"
-                    onClick={() => onCancel()}
-                  >
-                    <i className="fas fa-times"></i> Cancel
-                  </button>
-                  <button
-                    className="btn btn-primary btn-default pull-left"
-                    data-dismiss="modal"
-                    onClick={() => onConfirm()}
-                  >
-                    <i className="fas fa-check"></i> Ok
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </NavigationPrompt>
     </>
   );
 };

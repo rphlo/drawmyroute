@@ -78,6 +78,7 @@ const PathDrawing = (props) => {
       ></div>
       <div>
         <button
+          type="button"
           className="btn btn-danger"
           disabled={route.length < 1}
           onClick={(e) => setRoute((r) => removeLastPoint(e, r))}
@@ -86,10 +87,11 @@ const PathDrawing = (props) => {
         </button>
       </div>
       <div style={{ marginTop: "10px" }}>
-        <button className="btn btn-danger" onClick={props.onUndo}>
+        <button type="button" className="btn btn-danger" onClick={props.onUndo}>
           <i className="fas fa-undo"></i> Back
         </button>{" "}
         <button
+          type="button"
           className="btn btn-primary"
           onClick={onSubmit}
           disabled={route.length < 2}

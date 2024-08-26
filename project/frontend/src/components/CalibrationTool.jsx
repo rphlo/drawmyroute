@@ -477,6 +477,7 @@ const CalibrationTool = (props) => {
           <div className="col-md-6">
             <div id="mapRaster" className="leaflet_map calibration_map"></div>
             <button
+              type="button"
               className="btn btn-danger mb-3"
               onClick={() => {
                 for (let i = 0; i < markersRaster.length; i++) {
@@ -491,6 +492,7 @@ const CalibrationTool = (props) => {
           <div className="col-md-6">
             <div id="mapWorld" className="leaflet_map calibration_map"></div>
             <button
+              type="button"
               className="btn btn-danger mb-3"
               onClick={() => {
                 for (let i = 0; i < markersWorld.length; i++) {
@@ -509,6 +511,7 @@ const CalibrationTool = (props) => {
         <div className="row">
           <div className="col-md-12">
             <button
+              type="button"
               className="btn btn-danger"
               onClick={() => {
                 onValue(null);
@@ -518,6 +521,7 @@ const CalibrationTool = (props) => {
             </button>
             &nbsp;
             <button
+              type="button"
               className="btn btn-primary"
               data-testid="to-validation"
               disabled={!isReady}

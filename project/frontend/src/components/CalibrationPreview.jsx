@@ -280,6 +280,7 @@ const CalibrationPreview = (props) => {
         <div className="row" style={{ marginTop: "10px" }}>
           <div className="col-md-12">
             <button
+              type="button"
               className="btn btn-danger"
               onClick={() => {
                 onValue(false);
@@ -289,6 +290,7 @@ const CalibrationPreview = (props) => {
             </button>
             &nbsp;
             <button
+              type="button"
               className="btn btn-primary"
               onClick={() => onValue(getCalibrationString(cornersCoordinates))}
               data-testid="validate-button"

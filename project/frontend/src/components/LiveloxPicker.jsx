@@ -12,8 +12,9 @@ function LiveloxPicker(props) {
     }
 
     const onSubmit = (e) => {
-        setSubmitting(true)
         e.preventDefault();
+        window.onbeforeunload = null;
+        setSubmitting(true)
         const formData = new FormData(e.target);
         const url = formData.get("url");
         formData.append('type', 'kmz');
@@ -34,14 +35,14 @@ function LiveloxPicker(props) {
     return <>
         <div>
             <form onSubmit={onSubmit}>
-            <div className="mb-3">
-                <label className="form-label"><a href="https://livelox.com" target="_blank" rel="noopener noreferrer"><img alt="livelox" src={logo} height="40"/></a><a className="ml-3" href="https://gps.tulospalvelu.fi" target="_blank" rel="noopener noreferrer"><img style={{verticalAlign: "bottom"}}alt="gpsseuranta" src={logo2} height="30"/></a></label>
-                <input className={"form-control" + (urlOK ? "" : " is-invalid")} placeholder="Livelox or GPSSeuranta URL" onChange={onChangeURL} name="url" required={true}></input>
-                { !urlOK && (<div className="invalid-feedback">
-                    Invalid livelox or gpsseuranta event URL!
-                </div>)}
-            </div>
-            <button type="submit" className="btn btn-primary" disabled={submitting}>{submitting ? <><i className="fa fa-spinner fa-spin"></i>{" "}</> :  ""}Fetch</button>
+                <div className="mb-3">
+                    <label className="form-label"><a href="https://livelox.com" target="_blank" rel="noopener noreferrer"><img alt="livelox" src={logo} height="40"/></a><a className="ml-3" href="https://gps.tulospalvelu.fi" target="_blank" rel="noopener noreferrer"><img style={{verticalAlign: "bottom"}}alt="gpsseuranta" src={logo2} height="30"/></a></label>
+                    <input className={"form-control" + (urlOK ? "" : " is-invalid")} placeholder="Livelox or GPSSeuranta URL" onChange={onChangeURL} name="url" required={true}></input>
+                    { !urlOK && (<div className="invalid-feedback">
+                        Invalid livelox or gpsseuranta event URL!
+                    </div>)}
+                </div>
+                <button type="submit" className="btn btn-primary" disabled={submitting}>{submitting ? <><i className="fa fa-spinner fa-spin"></i>{" "}</> :  ""}Fetch</button>
             </form>
         </div>
     </>

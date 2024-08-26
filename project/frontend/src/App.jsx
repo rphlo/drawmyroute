@@ -31,6 +31,14 @@ function App() {
     }
   };
 
+  React.useEffect(() => {
+    window.addEventListener('beforeunload', function (event) {
+      event.stopImmediatePropagation();
+      return null;
+    });
+    window.beforeunload = null;
+  }, [window.beforeunload])
+
   return (
     <GlobalStateProvider>
       <Router basename="/">

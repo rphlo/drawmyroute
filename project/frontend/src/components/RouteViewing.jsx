@@ -371,6 +371,7 @@ const RouteViewing = (props) => {
             <div>
               {!isPrivate && (
                 <button
+                  type="button"
                   style={{ marginBottom: "5px" }}
                   className="btn btn-sm btn-warning"
                   onClick={share}
@@ -380,6 +381,7 @@ const RouteViewing = (props) => {
               )}
               <br />
               <button
+                type="button"
                 style={{ marginBottom: "5px" }}
                 className="btn btn-sm btn-success"
                 onClick={downloadMap}
@@ -389,6 +391,7 @@ const RouteViewing = (props) => {
               </button>
               &nbsp;
               <button
+                type="button"
                 style={{ marginBottom: "5px" }}
                 className="btn btn-sm btn-success"
                 onClick={downloadKmz}
@@ -398,6 +401,7 @@ const RouteViewing = (props) => {
               </button>
               &nbsp;
               <button
+                type="button"
                 style={{ marginBottom: "5px" }}
                 className="btn btn-sm btn-success"
                 onClick={downloadGPX}
@@ -408,6 +412,7 @@ const RouteViewing = (props) => {
                 <>
                   &nbsp;
                   <button
+                    type="button"
                     style={{ marginBottom: "5px" }}
                     className="btn btn-sm btn-primary"
                     onClick={cropRoute}
@@ -418,6 +423,7 @@ const RouteViewing = (props) => {
               )}
               {hasRouteTime && (
                 <button
+                  type="button"
                   style={{ marginBottom: "5px" }}
                   className="btn btn-sm btn-primary float-right"
                   onClick={props.togglePlayer}
@@ -427,7 +433,7 @@ const RouteViewing = (props) => {
               )}
             </div>
             <div>
-              <button className="btn btn-sm btn-default" onClick={toggleHeader}>
+              <button type="button" className="btn btn-sm btn-default" onClick={toggleHeader}>
                 <i
                   className={
                     togglingHeader
@@ -439,7 +445,7 @@ const RouteViewing = (props) => {
                 Header
               </button>
               &nbsp;
-              <button className="btn btn-sm btn-default" onClick={toggleRoute}>
+              <button type="button" className="btn btn-sm btn-default" onClick={toggleRoute}>
                 <i
                   className={
                     togglingRoute
@@ -460,6 +466,7 @@ const RouteViewing = (props) => {
             <div className="container">
               <h3>Crop GPS</h3>
               <button
+                type="button"
                 className="btn btn-primary mb-3 mr-1"
                 onClick={saveCropping}
                 disabled={savingCrop}
@@ -467,6 +474,7 @@ const RouteViewing = (props) => {
                 <i className="fas fa-save"></i> Save
               </button>
               <button
+                type="button"
                 className="btn btn-danger mb-3"
                 onClick={() => window.location.reload()}
                 disabled={savingCrop}

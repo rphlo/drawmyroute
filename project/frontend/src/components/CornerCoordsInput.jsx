@@ -78,10 +78,11 @@ const CornersCoordsInput = (props) => {
           </Link>
         </p>
       </div>
-      <button className="btn btn-danger" onClick={props.onUndo}>
+      <button type="button" className="btn btn-danger" onClick={props.onUndo}>
         <i className="fas fa-undo"></i> Back
       </button>{" "}
       <button
+        type="button"
         data-testid="nextBtn"
         className="btn btn-primary"
         onClick={() => onSubmit()}

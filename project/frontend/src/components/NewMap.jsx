@@ -22,7 +22,7 @@ import { LatLng, bytesToBase64 } from "../utils";
 const pdfjsWorker = import('pdfjs-dist/build/pdf.worker.entry')
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
-function NewMap() {
+function NewMap({history}) {
   const globalState = useGlobalState();
   const { username } = globalState.user;
   const [route, _setRoute] = React.useState();
@@ -451,6 +451,7 @@ function NewMap() {
               <hr />
               or{" "}
               <button
+                type="button"
                 className="btn btn-primary"
                 onClick={() => {
                   setDrawRoute(true);
@@ -468,7 +469,7 @@ function NewMap() {
               <hr/>
               <LiveloxPicker onSubmit={onDropImg}></LiveloxPicker>
               <hr/>
-              <button className="btn btn-danger" onClick={onRestart}>
+              <button type="button" className="btn btn-danger" onClick={onRestart}>
                 <i className="fas fa-undo"></i> Back
               </button>
             </>
@@ -502,6 +503,7 @@ function NewMap() {
           mapDataURL={mapDataURL}
           name={name}
           stravaDetails={stravaDetails}
+          history={history}
         />
       )}
     </>

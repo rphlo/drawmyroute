@@ -291,11 +291,11 @@ const RouteReplay = (props) => {
           ></div>
           <div style={{ marginBottom: "5px" }}>
             {!playing ? (
-              <button className="btn btn-light" onClick={onPlay}>
+              <button type="button" className="btn btn-light" onClick={onPlay}>
                 <i className="fa fa-play"></i>
               </button>
             ) : (
-              <button className="btn btn-light" onClick={onPause}>
+              <button type="button" className="btn btn-light" onClick={onPause}>
                 <i className="fa fa-pause"></i>
               </button>
             )}
@@ -324,10 +324,10 @@ const RouteReplay = (props) => {
             >
               {"x" + speed}
             </span>{" "}
-            <button className="btn btn-sm btn-light" onClick={onSlower}>
+            <button type="button" className="btn btn-sm btn-light" onClick={onSlower}>
               Slower
             </button>{" "}
-            <button onClick={onFaster} className="btn btn-sm btn-light">
+            <button type="button" onClick={onFaster} className="btn btn-sm btn-light">
               Faster
             </button>{" "}
             <span

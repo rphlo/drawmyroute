@@ -70,18 +70,18 @@ const Login = () => {
       {username && (
         <div style={{ textAlign: "right" }}>
           <Link to="/new">
-            <button className="btn btn-secondary btn-sm">
+            <button type="button" className="btn btn-secondary btn-sm">
               <i className="fas fa-plus"></i> New Route
             </button>
           </Link>
           &nbsp;
           <Link to="/settings">
-            <button className="btn btn-primary btn-sm">
+            <button type="button" className="btn btn-primary btn-sm">
               <i className="fas fa-user-cog"></i> Settings
             </button>
           </Link>
           &nbsp;
-          <button onClick={onLogout} className="btn btn-danger btn-sm">
+          <button type="button" onClick={onLogout} className="btn btn-danger btn-sm">
             <i className="fas fa-power-off"></i> Logout
           </button>
           &nbsp;
@@ -90,6 +90,7 @@ const Login = () => {
       {!username && (
         <div style={{ textAlign: "right" }}>
           <button
+            type="button"
             id="loginBtn"
             data-testid="loginBtn"
             onClick={() => setWantLogin(true)}
@@ -99,7 +100,7 @@ const Login = () => {
           </button>
           &nbsp;
           <Link to="/sign-up">
-            <button className="btn btn-success btn-sm">
+            <button type="button" className="btn btn-success btn-sm">
               <i className="fas fa-user-plus"></i> Sign up for free
             </button>
           </Link>

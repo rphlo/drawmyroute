@@ -90,7 +90,7 @@ const DownloadOwnDataBtn = () => {
         <i class="fa fa-download"></i> Download own data
       </h3>
       {dl === null ? (
-        <button className="btn btn-primary" onClick={downloadOwnData}>
+        <button type="button" className="btn btn-primary" onClick={downloadOwnData}>
           <i class="fa fa-download"></i> Download All Routes
         </button>
       ) : (

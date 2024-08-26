@@ -53,6 +53,7 @@ const ShareModal = (props) => {
                 </div>
                 <div className="col-auto">
                   <button
+                    type="button"
                     data-testid="copyBtn"
                     className="btn btn-primary"
                     onClick={onCopy}
