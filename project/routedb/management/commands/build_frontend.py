@@ -27,9 +27,7 @@ class Command(BaseCommand):
             [settings.YARN_PATH, "install"], cwd=client_dir, env=env
         )
 
-        subprocess.check_output(
-            [settings.YARN_PATH, "build"], cwd=client_dir, env=env
-        )
+        subprocess.check_output([settings.YARN_PATH, "build"], cwd=client_dir, env=env)
 
         self.stdout.write("Collecting static files ...")
         call_command("collectstatic", interactive=False, clear=True, verbosity=0)

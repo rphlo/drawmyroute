@@ -187,4 +187,3 @@ export const parseTCXString = function (xmlstr, cb) {
 
   parser.write(xmlstr).end();
 };
-
