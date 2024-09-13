@@ -2,7 +2,7 @@
 
 # import re
 
-from django.conf import settings
+# from django.conf import settings
 from django.db import migrations
 
 # from routedb.models import RasterMap
