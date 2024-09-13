@@ -23,7 +23,7 @@ def transfer_data(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("core", "0020_route_is_private"),
+        ("routedb", "0020_route_is_private"),
     ]
 
     operations = [
