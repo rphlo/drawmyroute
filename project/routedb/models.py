@@ -35,8 +35,8 @@ def map_upload_path(instance=None, file_name=None):
     tmp_path = ["maps"]
     time_hash = time_base64()
     basename = f"{instance.uid}_{time_hash}"
-    tmp_path.append(basename[0])
-    tmp_path.append(basename[1])
+    tmp_path.append(basename[0].upper())
+    tmp_path.append(basename[1].upper())
     tmp_path.append(basename)
     return os.path.join(*tmp_path)
 
