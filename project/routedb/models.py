@@ -41,15 +41,6 @@ def map_upload_path(instance=None, file_name=None):
     return os.path.join(*tmp_path)
 
 
-def route_upload_path(instance=None, file_name=None):
-    tmp_path = ["routes"]
-    basename = instance.uid
-    tmp_path.append(basename[0])
-    tmp_path.append(basename[1])
-    tmp_path.append(basename)
-    return os.path.join(*tmp_path)
-
-
 def avatar_upload_path(instance=None, file_name=None):
     tmp_path = ["avatars"]
     time_hash = time_base64()
@@ -515,7 +506,8 @@ class Route(models.Model):
 
     @property
     def images_path(self):
-        return route_upload_path(self)
+        # Deprecated
+        return self.uid
 
     class Meta:
         ordering = ["-start_time"]
