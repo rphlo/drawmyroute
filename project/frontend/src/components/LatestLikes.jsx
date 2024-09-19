@@ -47,9 +47,8 @@ const LatestLikes = (props) => {
         data-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
-        ref={dropdown}
     >New 🏅</button>
-    <div className="dropdown-menu dropdown-menu-right">
+    <div className="dropdown-menu dropdown-menu-right" ref={dropdown}>
     { likes.map((l) => (
         <a className="dropdown-item"
            href="/#"
