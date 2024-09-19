@@ -405,7 +405,7 @@ const RouteViewing = (props) => {
           onPrivacyChanged={setIsPrivate}
         />
         <div className="mb-3">
-        {likes.length !== 0 && (<span data-tip={likers}><button type="button" className="font-weight-bold font-italic btn">{likes.length} 🏅</button></span>)}{canLike && (<> <button type="button" className="btn btn-primary" onClick={grantMedal}>Give a medal 🏅</button></>)}
+        {likes.length !== 0 && (<span data-tip="test"><button type="button" className="font-weight-bold font-italic btn">{likes.length} 🏅</button></span>)}{canLike && (<> <button type="button" className="btn btn-primary" onClick={grantMedal}>Give a medal 🏅</button></>)}
           <ReactTooltip/>
         </div>
         {!cropping && (
