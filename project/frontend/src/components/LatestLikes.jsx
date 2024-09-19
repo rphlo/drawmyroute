@@ -22,8 +22,17 @@ const LatestLikes = (props) => {
       }
     }, [api_token]);
 
-    const openEvent = (e) => {
-        props.history.push("/routes/" + e)
+    const onOpen = async (e) => {
+        e.preventDefault();
+        if (opened)return;
+        setOpened(true);
+        await fetch(
+            import.meta.env.VITE_API_URL + "/v1/latest-likes/",
+            {
+                method: "post",
+                headers: { Authorization: "Token " + api_token }
+            }
+        );
     };
     
     return <>{ likes.length > 0 ? (<div>
