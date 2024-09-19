@@ -55,6 +55,7 @@ class UserSettings(models.Model):
     avatar = models.ImageField(
         upload_to=avatar_upload_path, storage=map_storage, null=True
     )
+    date_fetched_likes = models.DateTimeField(blank=True, null=True)
 
     @property
     def avatar_data(self):
