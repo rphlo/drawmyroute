@@ -76,7 +76,6 @@ const RouteViewing = (props) => {
         capitalizeFirstLetter(like.user.last_name)
         : like.user.username;
     }).join('\n');
-    ReactTooltip.rebuild();
   }, [likes]);
   
   useEffect(() => {
@@ -122,6 +121,7 @@ const RouteViewing = (props) => {
   
   useEffect(() => {
     setLikes(props.thumbsUp);
+    ReactTooltip.rebuild();
   }, [props.thumbsUp]);
   
   useEffect(() => {
