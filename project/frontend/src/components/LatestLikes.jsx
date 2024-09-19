@@ -18,7 +18,7 @@ const LatestLikes = (props) => {
           setLikes(await r.json());
         })();
       }
-    }
+    }, [api_token]);
     
     return { likes.length > 0 ? (<>
     <button 
