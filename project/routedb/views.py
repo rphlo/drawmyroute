@@ -475,6 +475,19 @@ def strava_access_token(request):
 
 @api_view(["POST"])
 @login_required
+def give_like_view(request, uid):
+    like, created = ThumbUp.objects.get_or_create(
+        route__uid=uid,
+        user_id=request.user.id,
+    )
+    if not created:
+        like.delete()
+        return {"deleted": True}
+    return {"created": True}
+
+
+@api_view(["POST"])
+@login_required
 def strava_deauthorize(request):
     user_settings = request.user.settings
     if user_settings.strava_access_token:
