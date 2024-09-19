@@ -67,6 +67,16 @@ const RouteViewing = (props) => {
     return username !== props.athlete.username && !likes.find((like) => like.user.username === username)
   }, [username, props.athlete.username, likes]);
 
+  const likers = useMemo(() => {
+    return likes.map((like) => {
+      return like.user.first_name && like.user.last_name ?
+        capitalizeFirstLetter(like.user.first_name) +
+        " " +
+        capitalizeFirstLetter(like.user.last_name)
+        : like.user.username);
+    }).join('\n');
+  }, [likes]);
+  
   useEffect(() => {
     const qp = new URLSearchParams();
     qp.set("m", props.modificationDate);
@@ -394,7 +404,7 @@ const RouteViewing = (props) => {
           onPrivacyChanged={setIsPrivate}
         />
         <div className="mb-3">
-        {likes.length !== 0 && (<span className="font-weight-bold font-italic">{likes.length} 🏅</span>)}
+        {likes.length !== 0 && (<span data-tip={likers} className="font-weight-bold font-italic">{likes.length} 🏅</span>)}
         {canLike && (<> <button type="button" className="btn btn-primary" onClick={grantMedal}>Give a medal 🏅</button></>)}
         </div>
         {!cropping && (
