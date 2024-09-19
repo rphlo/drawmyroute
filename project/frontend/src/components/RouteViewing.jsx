@@ -73,7 +73,7 @@ const RouteViewing = (props) => {
         capitalizeFirstLetter(like.user.first_name) +
         " " +
         capitalizeFirstLetter(like.user.last_name)
-        : like.user.username);
+        : like.user.username;
     }).join('\n');
   }, [likes]);
   
