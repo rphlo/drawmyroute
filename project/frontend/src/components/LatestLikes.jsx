@@ -1,4 +1,4 @@
-import React from "react";
+ import React from "react";
 import useGlobalState from "../utils/useGlobalState";
 
 const LatestLikes = (props) => {
@@ -19,6 +19,14 @@ const LatestLikes = (props) => {
         })();
       }
     }, [api_token]);
+
+    const onOpen = async () => {
+      await fetch(import.meta.env.VITE_API_URL + "/v1/latest-likes/",
+            {
+                method: "post",
+                headers: { Authorization: "Token " + api_token }
+            })
+    };
     
     return <>{ likes.length > 0 ? (<div>
     <button 
@@ -26,6 +34,7 @@ const LatestLikes = (props) => {
         data-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
+        ref={(node) => {node.addEventListener("show.bs.dropdown", onOpen)}
     >New 🏅</button>
     <div className="dropdown-menu dropdown-menu-right">
     { likes.map((l) => (
