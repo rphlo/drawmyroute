@@ -509,7 +509,7 @@ def likes_received_view(request):
     settings, _ = UserSettings.objects.get_or_create(user=request.user)
     if request.method == "POST":
         settings.date_fetched_likes = arrow.utcnow().datetime
-        settings.save(fields=["date_fetched_likes"])
+        settings.save(update_fields=["date_fetched_likes"])
         return Response({"ok":"ok"})
     likes = ThumbUp.objects.select_related("user", "route").filter(route__athlete_id=request.user.id)
     if since := settings.date_fetched_likes:
