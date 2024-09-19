@@ -1,5 +1,6 @@
 import React from "react";
 import LatestRoutes from "./LatestRoutes";
+import LatestLikes from "./LatestLikes";
 import { Helmet } from "react-helmet";
 
 import { Link } from "react-router-dom";
@@ -77,6 +78,7 @@ const Home = () => {
               <Link to="/new">Upload New Route</Link>
               <br />
               <Link to="/map">Browse Maps</Link>
+              <LatestLikes/>
             </div>
           </div>
         )}
