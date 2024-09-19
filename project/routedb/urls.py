@@ -5,6 +5,7 @@ from . import feeds, views
 urlpatterns = [
     path("routes/new", views.RouteCreate.as_view(), name="route_create"),
     path("latest-routes/", views.LatestRoutesList.as_view(), name="latest_routes_list"),
+    path("latest-likes/", views.likes_received_view, name="like_received_view"),
     re_path(
         r"^routes-by-tag/(?P<tag>[a-zA-Z0-9_]+)/?$",
         views.RoutesForTagList.as_view(),
