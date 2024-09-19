@@ -23,7 +23,7 @@ const LatestLikes = (props) => {
  
     
     const onOpen = async () => {
-        if (true || opened) return;
+        if (opened) return;
         setOpened(true);
         await fetch(import.meta.env.VITE_API_URL + "/v1/latest-likes/",
             {
@@ -34,7 +34,7 @@ const LatestLikes = (props) => {
     }
 
     const openEvent = (e) => {
-        return () => props.history.push("/route" + e)
+        props.history.push("/route" + e)
     };
     
     return <>{ likes.length > 0 ? (<div>
@@ -50,7 +50,7 @@ const LatestLikes = (props) => {
     { likes.map((l) => (
         <a className="dropdown-item"
            href="/#"
-           onClick={(e)=>openEvent(l.route.uid)}
+           onClick={(e)=>{e.peventDefault();openEvent(l.route.uid)}}
            key={JSON.stringify(l)}
         >{l.route.name}</a>)
       )
