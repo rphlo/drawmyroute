@@ -70,13 +70,13 @@ const RouteViewing = (props) => {
 
   const likers = useMemo(() => {
     return likes.map((like) => {
-      return like.user.first_name && like.user.last_name ?
+      return like.user.username === username ? "You" : (like.user.first_name && like.user.last_name ?
         capitalizeFirstLetter(like.user.first_name) +
         " " +
         capitalizeFirstLetter(like.user.last_name)
-        : like.user.username;
-    }).join('\n');
-  }, [likes]);
+        : like.user.username);
+    }).join(', ');
+  }, [likes, username]);
   
   useEffect(() => {
     const qp = new URLSearchParams();
@@ -406,7 +406,7 @@ const RouteViewing = (props) => {
           onPrivacyChanged={setIsPrivate}
         />
         <div className="mb-3">
-        {likes.length !== 0 && (<><span data-tip data-for="likers"><button type="button" className="font-weight-bold font-italic btn">{likes.length} 🏅</button></span><ReactTooltip id="likers">{likers}test</ReactTooltip></>)}
+        {likes.length !== 0 && (<><span data-tip data-for="likers"><button type="button" className="font-weight-bold font-italic btn">{likes.length} 🏅</button></span><ReactTooltip id="likers">{likers}</ReactTooltip></>)}
         {canLike && (<> <button type="button" className="btn btn-primary" onClick={grantMedal}>Give a medal 🏅</button></>)}
         </div>
         {!cropping && (
