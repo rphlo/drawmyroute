@@ -16,6 +16,7 @@ import ReactTooltip from "react-tooltip";
 import { capitalizeFirstLetter } from "../utils";
 
 const joinAnd = (a, sep, fSep) => {
+  if (a.length < 2) return a.join('')
   return  a.slice(0, -1).join(sep)+fSep+a.slice(-1);
 }
 
