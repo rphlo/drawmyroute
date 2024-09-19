@@ -503,7 +503,7 @@ def strava_deauthorize(request):
     return Response({})
 
 
-@api_view(["GET", "POST")
+@api_view(["GET", "POST"])
 @login_required
 def likes_received_view(request):
     if request.method == "POST":
