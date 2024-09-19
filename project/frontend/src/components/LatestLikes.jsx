@@ -20,7 +20,7 @@ const LatestLikes = (props) => {
       }
     }, [api_token]);
     
-    return <>{ likes.length > 0 ? (<>
+    return <>{ likes.length > 0 ? (<div>
     <button 
         className="btn btn-dark"
         data-toggle="dropdown"
@@ -36,7 +36,7 @@ const LatestLikes = (props) => {
         >{l.route.name}</a>)
       )
     }
-    </div></>) : (<></>) }</>
+    </div></div>) : (<></>) }</>
 }
 
 export default LatestLikes;
