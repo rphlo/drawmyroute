@@ -19,15 +19,26 @@ const LatestLikes = (props) => {
         })();
       }
     }, [api_token]);
-
-    const onOpen = async () => {
-        alert("ok");
-      await fetch(import.meta.env.VITE_API_URL + "/v1/latest-likes/",
+    
+    const dropdown = React.useRef();
+ 
+    React.useEffect(() => {
+        function onOpen() {
+            (async () => await fetch(import.meta.env.VITE_API_URL + "/v1/latest-likes/",
             {
                 method: "post",
                 headers: { Authorization: "Token " + api_token }
-            })
-    };
+            }))()
+        }
+
+        if (dropdown && dropdown.current) {
+            dropdown.current.addEventListener("show.bs.dropdown", onOpen, false);
+            return function cleanup() {
+                 dropdown.current.removeEventListener("show.bs.dropdown", onOpen, false);
+            };
+        }
+    }, [dropdown]);
+
     
     return <>{ likes.length > 0 ? (<div>
     <button 
@@ -35,7 +46,7 @@ const LatestLikes = (props) => {
         data-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
-        ref={(node) => {node.addEventListener("show.bs.dropdown", onOpen)}}
+        ref={dropdown}
     >New 🏅</button>
     <div className="dropdown-menu dropdown-menu-right">
     { likes.map((l) => (
