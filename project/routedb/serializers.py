@@ -139,6 +139,7 @@ class RouteSerializer(serializers.ModelSerializer):
     map_size = serializers.ReadOnlyField(source="raster_map.size")
     start_time = serializers.DateTimeField(required=False)
     is_private = serializers.BooleanField(required=False)
+    thumbsup = RouteThumbUpSerializer(many=True, read_only=True)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -269,6 +270,7 @@ class RouteSerializer(serializers.ModelSerializer):
             "comment",
             "route_data",
             "is_private",
+            "thumbsup",
         )
 
 
@@ -323,7 +325,7 @@ class LatestRouteListSerializer(serializers.ModelSerializer):
     distance = serializers.ReadOnlyField()
     duration = serializers.ReadOnlyField()
     athlete = UserInfoSerializer(read_only=True)
-    thumbsup = RouteThumbUpSerializer(many=True, read_only=True)
+
     class Meta:
         model = Route
         fields = (
