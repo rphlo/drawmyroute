@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import "../utils/Leaflet.ImageTransform";
 import "../utils/leaflet-rotate";
 import ReactTooltip from "react-tooltip";
+import { capitalizeFirstLetter } from "../utils";
 
 
 const round5 = (v) => {
