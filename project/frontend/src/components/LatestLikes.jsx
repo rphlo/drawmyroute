@@ -34,7 +34,7 @@ const LatestLikes = (props) => {
         data-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
-        ref={(node) => {node.addEventListener("show.bs.dropdown", onOpen)}
+        ref={(node) => {node.addEventListener("show.bs.dropdown", onOpen)}}
     >New 🏅</button>
     <div className="dropdown-menu dropdown-menu-right">
     { likes.map((l) => (
