@@ -1,4 +1,4 @@
- import React from "react";
+import React from "react";
 import useGlobalState from "../utils/useGlobalState";
 
 const LatestLikes = (props) => {
@@ -38,7 +38,7 @@ const LatestLikes = (props) => {
                  dropdown.current.removeEventListener("show.bs.dropdown", onOpen, false);
             };
         }
-    }, []);
+    }, [dropdown.current]);
 
     
     return <>{ likes.length > 0 ? (<div>
