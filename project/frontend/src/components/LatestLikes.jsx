@@ -38,7 +38,7 @@ const LatestLikes = (props) => {
                  dropdown.current.removeEventListener("show.bs.dropdown", onOpen, false);
             };
         }
-    }, [dropdown.current]);
+    }, []);
 
     
     return <>{ likes.length > 0 ? (<div>
