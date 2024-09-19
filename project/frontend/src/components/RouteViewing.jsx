@@ -65,7 +65,7 @@ const RouteViewing = (props) => {
   }, [username, props.athlete.username]);
 
   const canLike = useMemo(() => {
-    return username !== props.athlete.username && !likes.find((like) => like.user.username === username)
+    return username && username !== props.athlete.username && !likes.find((like) => like.user.username === username)
   }, [username, props.athlete.username, likes]);
 
   const likers = useMemo(() => {
@@ -406,6 +406,7 @@ const RouteViewing = (props) => {
         />
         <div className="mb-3">
         {likes.length !== 0 && (<span data-tip={likers}><button type="button" className="font-weight-bold font-italic btn">{likes.length} 🏅</button></span>)}{canLike && (<> <button type="button" className="btn btn-primary" onClick={grantMedal}>Give a medal 🏅</button></>)}
+          <ReactTooltip/>
         </div>
         {!cropping && (
           <>
@@ -559,7 +560,6 @@ const RouteViewing = (props) => {
           />
         )}
       </div>
-      <ReactTooltip globalEventOff='click' />
     </>
   );
 };
