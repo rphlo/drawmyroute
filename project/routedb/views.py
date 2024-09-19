@@ -505,7 +505,7 @@ def strava_deauthorize(request):
 
 @api_view(["POST"])
 @login_required
-def like_received_view(request):
+def likes_received_view(request):
     likes = ThumbUp.objects.selected_related("user", "route").filter(route__athlete_id=request.user.id)
     if since := request.GET.get("since"):
         likes.filter(creation_date__gt=arrow.get(since).datetime)
