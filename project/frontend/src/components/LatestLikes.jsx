@@ -23,7 +23,7 @@ const LatestLikes = (props) => {
  
     
     const onOpen = async () => {
-        if (opened) return;
+        if (true || opened) return;
         setOpened(true);
         await fetch(import.meta.env.VITE_API_URL + "/v1/latest-likes/",
             {
