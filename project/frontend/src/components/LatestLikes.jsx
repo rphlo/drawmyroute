@@ -34,13 +34,14 @@ const LatestLikes = (props) => {
         }
 
         if (dropdown?.current) {
+            alert("989");
             dropdown.current.addEventListener("show.bs.dropdown", onOpen, false);
             alert("tester");
             return function cleanup() {
                  dropdown.current.removeEventListener("show.bs.dropdown", onOpen, false);
             };
         }
-    }, []);
+    }, [dropdown.current]);
 
     
     return <>{ likes.length > 0 ? (<div ref={dropdown}>
