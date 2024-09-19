@@ -299,7 +299,17 @@ const RouteViewing = (props) => {
   const grantMedal = async (e) => {
     e.preventDefault();
     setLikes(l=>[...l, {username}]);
-    fetch(
+    const response = await fetch(
+        import.meta.env.VITE_API_URL + "/v1/route/" + props.id + "/like",
+        {
+          method: "POST",
+          credentials: "omit",
+          headers: {
+            Authorization: "Token " + api_token,
+            "Content-Type": "application/json",
+          },
+        }
+    );
   }
   const saveCropping = async () => {
     const minIdx = Math.floor((croppingRange[0] * route.length) / 100);
@@ -375,7 +385,7 @@ const RouteViewing = (props) => {
         />
         <div>
         {likes.length !== 0 && (<span>{likes.length} 🏅</span>))}
-        {!likes.find(l=>l.user.username == username) && auth_token && (<> <button type="button" className="btn btn-primary" onClick={grantMedal}>Give a medal 🏅</button></>)}
+        {!likes.find(l=>l.user.username == username) && api_token && (<> <button type="button" className="btn btn-primary" onClick={grantMedal}>Give a medal 🏅</button></>)}
         </div>
         {!cropping && (
           <>
