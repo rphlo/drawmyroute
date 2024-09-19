@@ -513,8 +513,7 @@ def likes_received_view(request):
         return Response({"ok":"ok"})
     likes = ThumbUp.objects.select_related("user", "route").filter(route__athlete_id=request.user.id)
     if since := settings.date_fetched_likes:
-        likes.filter(creation_date__gt=since)
-    return Response(since)
+        likes = likes.filter(creation_date__gt=since)
     return Response([{"user": UserInfoSerializer(l.user).data, "route": {"name": l.route.name, "uid": l.route.uid}} for l in likes])
 
 
