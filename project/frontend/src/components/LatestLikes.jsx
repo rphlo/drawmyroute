@@ -35,7 +35,7 @@ const LatestLikes = (props) => {
         onClick={onOpen}
         type="button"
     >{likes.length} new 🏅</button>
-    <div className="dropdown-menu dropdown-menu-right">
+    <div className="dropdown-menu">
     { likes.map((l) => (
         <Link 
            className="dropdown-item"
