@@ -28,7 +28,8 @@ const LatestLikes = (props) => {
             {
                 method: "post",
                 headers: { Authorization: "Token " + api_token }
-            }))()
+            }))();
+            alert("444")
         }
 
         if (dropdown && dropdown.current) {
