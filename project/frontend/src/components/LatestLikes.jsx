@@ -33,7 +33,9 @@ const LatestLikes = (props) => {
         )
     }
 
-    const openEvent = (e) => {};
+    const openEvent = (e) => {
+        return () => history.push("/route" + e)
+    };
     
     return <>{ likes.length > 0 ? (<div>
     <button 
