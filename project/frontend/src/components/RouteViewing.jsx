@@ -15,6 +15,9 @@ import "../utils/leaflet-rotate";
 import ReactTooltip from "react-tooltip";
 import { capitalizeFirstLetter } from "../utils";
 
+const joinAnd = (a, sep, fSep) => {
+  return  a.slice(0, -1).join(sep)+fSep+a.slice(-1);
+}
 
 const round5 = (v) => {
   return Math.round(v * 1e5) / 1e5;
@@ -69,13 +72,13 @@ const RouteViewing = (props) => {
   }, [username, props.athlete.username, likes]);
 
   const likers = useMemo(() => {
-    return likes.map((like) => {
+    return joinAnd(likes.map((like) => {
       return like.user.username === username ? "You" : (like.user.first_name && like.user.last_name ?
         capitalizeFirstLetter(like.user.first_name) +
         " " +
         capitalizeFirstLetter(like.user.last_name)
         : like.user.username)
-    })
+    }), ',\n', ',\nand '
   }, [likes, username]);
   
   useEffect(() => {
@@ -406,7 +409,7 @@ const RouteViewing = (props) => {
           onPrivacyChanged={setIsPrivate}
         />
         <div className="mb-3">
-        {likes.length !== 0 && (<><span data-tip data-for="likers"><button type="button" className="font-weight-bold font-italic btn-dark btn">{likes.length} 🏅</button></span><ReactTooltip place="right" id="likers"><pre style={{color: "#fff"}}>{likers.join('\n')} gave a medal</pre></ReactTooltip></>)}
+        {likes.length !== 0 && (<><span data-tip data-for="likers"><button type="button" className="font-weight-bold font-italic btn-dark btn">{likes.length} 🏅</button></span><ReactTooltip place="right" id="likers"><pre style={{color: "#fff"}}>{likers}</pre></ReactTooltip></>)}
         {canLike && (<> <button type="button" className="btn btn-primary" onClick={grantMedal}>Give a medal 🏅</button></>)}
         </div>
         {!cropping && (
