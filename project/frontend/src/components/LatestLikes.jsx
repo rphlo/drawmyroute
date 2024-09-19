@@ -19,32 +19,23 @@ const LatestLikes = (props) => {
         })();
       }
     }, [api_token]);
-    
-    const dropdown = React.useRef();
  
-    React.useEffect(() => {
+    const handleDropdown = React.useCallback((node) => {
         function onOpen() {
-            alert("test");
             (async () => await fetch(import.meta.env.VITE_API_URL + "/v1/latest-likes/",
             {
                 method: "post",
                 headers: { Authorization: "Token " + api_token }
             }))();
-            alert("444")
         }
-        alert(dropdown.current)
-        if (dropdown?.current) {
-            alert("989");
-            dropdown.current.addEventListener("show.bs.dropdown", onOpen, false);
-            alert("tester");
-            return function cleanup() {
-                 dropdown.current.removeEventListener("show.bs.dropdown", onOpen, false);
-            };
-        }
-    }, [dropdown.current]);
+        node.addEventListener("show.bs.dropdown", onOpen, false);
+        return function cleanup() {
+            node.removeEventListener("show.bs.dropdown", onOpen, false);
+        };
+    }, []);
 
     
-    return <>{ likes.length > 0 ? (<div ref={dropdown}>
+    return <>{ likes.length > 0 ? (<div ref={handleDropdown}>
     <button 
         className="btn btn-dark"
         data-toggle="dropdown"
