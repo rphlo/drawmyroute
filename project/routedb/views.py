@@ -24,7 +24,7 @@ from rest_framework.decorators import api_view
 from rest_framework.pagination import CursorPagination
 from rest_framework.permissions import SAFE_METHODS, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
-from routedb.models import RasterMap, Route, UserSettings
+from routedb.models import RasterMap, Route, ThumbUp, UserSettings
 from routedb.serializers import (
     AuthTokenSerializer,
     EmailSerializer,
