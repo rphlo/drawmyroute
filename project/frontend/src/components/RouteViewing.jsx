@@ -49,6 +49,7 @@ const RouteViewing = (props) => {
   const [savingCrop, setSavingCrop] = useState(false);
   const [leafletMap, setLeafletMap] = useState(null);
   const [isBoundSet, setIsBoundSet] = useState(null);
+  const [likes, setLikes] = useState([]);
   const globalState = useGlobalState();
   const { api_token, username } = globalState.user;
 
@@ -100,7 +101,9 @@ const RouteViewing = (props) => {
     );
     setRoute(arch);
   }, [props.route]);
-
+  useEffect(() => {
+    setLikes(props.thumbsUp);
+  }, [props.thumbsUp])
   useEffect(() => {
     var img = new Image();
     img.crossOrigin = "anonymous";
@@ -293,7 +296,11 @@ const RouteViewing = (props) => {
     });
     leafletRoute.setLatLngs(routeLatLng);
   };
-
+  const grantMedal = async (e) => {
+    e.preventDefault();
+    setLikes(l=>[...l, {username}]);
+    fetch(
+  }
   const saveCropping = async () => {
     const minIdx = Math.floor((croppingRange[0] * route.length) / 100);
     const maxIdx = Math.ceil((croppingRange[1] * route.length) / 100);
@@ -366,6 +373,10 @@ const RouteViewing = (props) => {
           onNameChanged={setName}
           onPrivacyChanged={setIsPrivate}
         />
+        <div>
+        {likes.length !== 0 && (<span>{likes.length} 🏅</span>))}
+        {!likes.find(l=>l.user.username == username) && auth_token && (<> <button type="button" className="btn btn-primary" onClick={grantMedal}>Give a medal 🏅</button></>)}
+        </div>
         {!cropping && (
           <>
             <div>
