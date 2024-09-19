@@ -70,11 +70,11 @@ const RouteViewing = (props) => {
 
   const likers = useMemo(() => {
     return (<>likes.map((like) => {
-      return <span key={like.user.username}>like.user.username === username ? "You" : (like.user.first_name && like.user.last_name ?
+      return <span key={like.user.username}>{like.user.username === username ? "You" : (like.user.first_name && like.user.last_name ?
         capitalizeFirstLetter(like.user.first_name) +
         " " +
         capitalizeFirstLetter(like.user.last_name)
-        : like.user.username)</span>
+        : like.user.username)}</span>
     }).join(<br/>)</>);
   }, [likes, username]);
   
