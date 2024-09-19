@@ -298,7 +298,7 @@ const RouteViewing = (props) => {
   };
   const grantMedal = async (e) => {
     e.preventDefault();
-    setLikes(l=>[...l, {username}]);
+    setLikes((l) => [...l, {user: {username}}]);
     const response = await fetch(
         import.meta.env.VITE_API_URL + "/v1/route/" + props.id + "/like",
         {
@@ -383,9 +383,9 @@ const RouteViewing = (props) => {
           onNameChanged={setName}
           onPrivacyChanged={setIsPrivate}
         />
-        <div>
-        {likes.length !== 0 && (<span>{likes.length} 🏅</span>)}
-        {!likes.find(l=>l.user.username == username) && api_token && (<> <button type="button" className="btn btn-primary" onClick={grantMedal}>Give a medal 🏅</button></>)}
+        <div className="mb-3">
+        {likes.length !== 0 && (<span className="fw-bold">{likes.length} 🏅</span>)}
+        {!likes.find(l => l.user.username === username) && api_token && (<> <button type="button" className="btn btn-primary" onClick={grantMedal}>Give a medal 🏅</button></>)}
         </div>
         {!cropping && (
           <>
