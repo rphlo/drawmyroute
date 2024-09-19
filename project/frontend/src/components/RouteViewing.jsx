@@ -75,7 +75,7 @@ const RouteViewing = (props) => {
         " " +
         capitalizeFirstLetter(like.user.last_name)
         : like.user.username)
-    }).join('\n);
+    }).join('\n');
   }, [likes, username]);
   
   useEffect(() => {
