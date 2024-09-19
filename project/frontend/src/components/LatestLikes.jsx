@@ -24,6 +24,7 @@ const LatestLikes = (props) => {
  
     React.useEffect(() => {
         function onOpen() {
+            alert("test");
             (async () => await fetch(import.meta.env.VITE_API_URL + "/v1/latest-likes/",
             {
                 method: "post",
