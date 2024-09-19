@@ -405,7 +405,7 @@ const RouteViewing = (props) => {
           onPrivacyChanged={setIsPrivate}
         />
         <div className="mb-3">
-        {likes.length !== 0 && (<span data-tip={likers} className="font-weight-bold font-italic">{likes.length} 🏅</span>)}
+        {likes.length !== 0 && (<span data-tip={likers} data-event='click focus' className="font-weight-bold font-italic">{likes.length} 🏅</span>)}
         {canLike && (<> <button type="button" className="btn btn-primary" onClick={grantMedal}>Give a medal 🏅</button></>)}
         </div>
         {!cropping && (
@@ -560,7 +560,7 @@ const RouteViewing = (props) => {
           />
         )}
       </div>
-      <ReactTooltip place="top" />
+      <ReactTooltip globalEventOff='click' />
     </>
   );
 };
