@@ -503,12 +503,17 @@ def strava_deauthorize(request):
     return Response({})
 
 
-@api_view(["GET"])
+@api_view(["GET", "POST")
 @login_required
 def likes_received_view(request):
+    if request.method == "POST":
+        settings.date_fetched_likes = arrow.utcnow().datetime
+        settings.save(fields=["date_fetched_likes"])
+        return Response({"ok":"ok"})
     likes = ThumbUp.objects.select_related("user", "route").filter(route__athlete_id=request.user.id)
-    if since := request.GET.get("since"):
-        likes.filter(creation_date__gt=arrow.get(since).datetime)
+    settings, _ = UserSettings.objects.get_or_create(user=request.user)
+    if since := settings.date_fetched_likes:
+        likes.filter(creation_date__gt=since)
     return Response([{"user": UserInfoSerializer(l.user).data, "route": {"name": l.route.name}} for l in likes])
 
 
