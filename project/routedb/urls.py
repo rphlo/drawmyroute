@@ -50,6 +50,11 @@ urlpatterns = [
         views.raster_map_download,
         name="raster_map_image",
     ),
+    re_path(
+        r"^route/(?P<uid>[a-zA-Z0-9_-]+)/like/?$",
+        views.give_like_view(),
+        name="give_like_view",
+    ),
     path("auth/user/", view=views.UserEditView.as_view(), name="auth_user_detail"),
     path(
         "auth/user/settings/",
