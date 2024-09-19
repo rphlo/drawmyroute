@@ -41,14 +41,14 @@ const LatestLikes = (props) => {
     }, []);
 
     
-    return <>{ likes.length > 0 ? (<div>
+    return <>{ likes.length > 0 ? (<div ref={dropdown}>
     <button 
         className="btn btn-dark"
         data-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
     >New 🏅</button>
-    <div className="dropdown-menu dropdown-menu-right" ref={dropdown}>
+    <div className="dropdown-menu dropdown-menu-right">
     { likes.map((l) => (
         <a className="dropdown-item"
            href="/#"
