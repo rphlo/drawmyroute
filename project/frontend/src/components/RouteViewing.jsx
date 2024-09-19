@@ -12,6 +12,8 @@ import { LatLng, cornerCalTransform, resetOrientation } from "../utils";
 import Swal from "sweetalert2";
 import "../utils/Leaflet.ImageTransform";
 import "../utils/leaflet-rotate";
+import ReactTooltip from "react-tooltip";
+
 
 const round5 = (v) => {
   return Math.round(v * 1e5) / 1e5;
