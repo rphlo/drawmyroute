@@ -20,7 +20,7 @@ const LatestLikes = (props) => {
       }
     }, [api_token]);
     
-    return <>{ likes.length > 0 ? (
+    return <>{ likes.length > 0 ? (<>
     <button 
         className="btn btn-dark"
         data-toggle="dropdown"
