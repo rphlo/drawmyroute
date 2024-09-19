@@ -384,7 +384,7 @@ const RouteViewing = (props) => {
           onPrivacyChanged={setIsPrivate}
         />
         <div>
-        {likes.length !== 0 && (<span>{likes.length} 🏅</span>))}
+        {likes.length !== 0 && (<span>{likes.length} 🏅</span>)}
         {!likes.find(l=>l.user.username == username) && api_token && (<> <button type="button" className="btn btn-primary" onClick={grantMedal}>Give a medal 🏅</button></>)}
         </div>
         {!cropping && (
