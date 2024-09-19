@@ -21,6 +21,7 @@ const LatestLikes = (props) => {
     }, [api_token]);
 
     const onOpen = async () => {
+        alert("ok");
       await fetch(import.meta.env.VITE_API_URL + "/v1/latest-likes/",
             {
                 method: "post",
