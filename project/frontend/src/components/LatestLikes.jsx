@@ -3,6 +3,7 @@ import useGlobalState from "../utils/useGlobalState";
 
 const LatestLikes = (props) => {
     const [likes, setLikes] = React.useState([]);
+    const [opened, setOpened] = React.useState(false);
     
     const globalState = useGlobalState();
     const { api_token } = globalState.user;
@@ -20,32 +21,29 @@ const LatestLikes = (props) => {
       }
     }, [api_token]);
  
-    const handleDropdown = React.useCallback((node) => {
-        function onOpen() {
-            alert("1");
-            (async () => await fetch(import.meta.env.VITE_API_URL + "/v1/latest-likes/",
+    
+    const onOpen = async () => {
+        if (opened) return;
+        setOpened(true);
+        await fetch(import.meta.env.VITE_API_URL + "/v1/latest-likes/",
             {
                 method: "post",
                 headers: { Authorization: "Token " + api_token }
-            }))();
-            alert("2");
-        }
-        alert("3");
-        node.addEventListener("show.bs.dropdown", onOpen);
-        alert("4");
-        return function cleanup() {
-            node.removeEventListener("show.bs.dropdown", onOpen);
-        };
-    }, []);
+            }
+        )
+    }
+
     const openEvent = (e) => {};
     
-    return <>{ likes.length > 0 ? (<div ref={handleDropdown}>
+    return <>{ likes.length > 0 ? (<div>
     <button 
         className="btn btn-dark"
         data-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
-    >New 🏅</button>
+        onClick={onOpen}
+        type="button"
+    >{likes.length} new 🏅</button>
     <div className="dropdown-menu dropdown-menu-right">
     { likes.map((l) => (
         <a className="dropdown-item"
