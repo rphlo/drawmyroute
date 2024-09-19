@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import useGlobalState from "../utils/useGlobalState";
 
 const LatestLikes = (props) => {
@@ -48,11 +49,11 @@ const LatestLikes = (props) => {
     >{likes.length} new 🏅</button>
     <div className="dropdown-menu dropdown-menu-right">
     { likes.map((l) => (
-        <a className="dropdown-item"
-           href="/#"
-           onClick={(e)=>{e.preventDefault();openEvent(l.route.uid)}}
+        <Link 
+           className="dropdown-item"
+           to={"/routes/" + l.route.uid }
            key={JSON.stringify(l)}
-        >{l.route.name}</a>)
+        >{l.user.username} gave you a medal for {l.route.name}</Link>)
       )
     }
     </div></div>) : (<></>) }</>
