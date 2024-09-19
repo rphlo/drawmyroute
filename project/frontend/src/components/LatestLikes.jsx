@@ -32,7 +32,7 @@ const LatestLikes = (props) => {
             }))();
             alert("444")
         }
-        alert("657");
+        alert(dropdown.current)
         if (dropdown?.current) {
             alert("989");
             dropdown.current.addEventListener("show.bs.dropdown", onOpen, false);
