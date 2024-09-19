@@ -11,7 +11,7 @@ from django.utils.translation import gettext_lazy as _
 from PIL import Image
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-from routedb.models import RasterMap, Route, UserSettings
+from routedb.models import RasterMap, Route, ThumbUp, UserSettings
 from utils.validators import (
     custom_username_validators,
     validate_latitude,
@@ -300,6 +300,18 @@ class UserRouteListSerializer(serializers.ModelSerializer):
         )
 
 
+class RouteThumbUpSerializer(serializers.ModelSerializer):
+    creation_date = serializers.ReadOnlyField()
+    user = UserInfoSerializer()
+
+    class Meta:
+        model = ThumbUp
+        fields = (
+            "creation_date",
+            "user",
+        )
+
+
 class LatestRouteListSerializer(serializers.ModelSerializer):
     url = RelativeURLField(source="api_url")
     id = serializers.ReadOnlyField(source="uid")
@@ -311,7 +323,7 @@ class LatestRouteListSerializer(serializers.ModelSerializer):
     distance = serializers.ReadOnlyField()
     duration = serializers.ReadOnlyField()
     athlete = UserInfoSerializer(read_only=True)
-
+    thumbsup = RouteThumbUpSerializer(many=True, read_only=True)
     class Meta:
         model = Route
         fields = (
