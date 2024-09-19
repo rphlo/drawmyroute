@@ -31,10 +31,10 @@ const LatestLikes = (props) => {
             alert("2");
         }
         alert("3");
-        node.addEventListener("show.bs.dropdown", onOpen, false);
+        node.addEventListener("show.bs.dropdown", onOpen);
         alert("4");
         return function cleanup() {
-            node.removeEventListener("show.bs.dropdown", onOpen, false);
+            node.removeEventListener("show.bs.dropdown", onOpen);
         };
     }, []);
 
