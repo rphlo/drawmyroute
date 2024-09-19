@@ -61,6 +61,10 @@ const RouteViewing = (props) => {
     return username === props.athlete.username;
   }, [username, props.athlete.username]);
 
+  const canLike = useMemo(() => {
+    return username !== props.athlete.username && !likes.find((like) => like.user.username === username)
+  }, [username, props.athlete.username, likes]);
+
   useEffect(() => {
     const qp = new URLSearchParams();
     qp.set("m", props.modificationDate);
@@ -101,9 +105,11 @@ const RouteViewing = (props) => {
     );
     setRoute(arch);
   }, [props.route]);
+  
   useEffect(() => {
     setLikes(props.thumbsUp);
-  }, [props.thumbsUp])
+  }, [props.thumbsUp]);
+  
   useEffect(() => {
     var img = new Image();
     img.crossOrigin = "anonymous";
@@ -296,6 +302,7 @@ const RouteViewing = (props) => {
     });
     leafletRoute.setLatLngs(routeLatLng);
   };
+  
   const grantMedal = async (e) => {
     e.preventDefault();
     setLikes((l) => [...l, {user: {username}}]);
@@ -311,6 +318,7 @@ const RouteViewing = (props) => {
         }
     );
   }
+  
   const saveCropping = async () => {
     const minIdx = Math.floor((croppingRange[0] * route.length) / 100);
     const maxIdx = Math.ceil((croppingRange[1] * route.length) / 100);
@@ -384,8 +392,8 @@ const RouteViewing = (props) => {
           onPrivacyChanged={setIsPrivate}
         />
         <div className="mb-3">
-        {likes.length !== 0 && (<span className="fobt-weight-bold font-italic">{likes.length} 🏅</span>)}
-        {!canEdit && !likes.find(l => l.user.username === username) && api_token && (<> <button type="button" className="btn btn-primary" onClick={grantMedal}>Give a medal 🏅</button></>)}
+        {likes.length !== 0 && (<span className="font-weight-bold font-italic">{likes.length} 🏅</span>)}
+        {canLike && (<> <button type="button" className="btn btn-primary" onClick={grantMedal}>Give a medal 🏅</button></>)}
         </div>
         {!cropping && (
           <>
