@@ -22,13 +22,17 @@ const LatestLikes = (props) => {
  
     const handleDropdown = React.useCallback((node) => {
         function onOpen() {
+            alert("1");
             (async () => await fetch(import.meta.env.VITE_API_URL + "/v1/latest-likes/",
             {
                 method: "post",
                 headers: { Authorization: "Token " + api_token }
             }))();
+            alert("2");
         }
+        alert("3");
         node.addEventListener("show.bs.dropdown", onOpen, false);
+        alert("4");
         return function cleanup() {
             node.removeEventListener("show.bs.dropdown", onOpen, false);
         };
