@@ -117,6 +117,18 @@ class UserInfoSerializer(serializers.ModelSerializer):
         fields = ("username", "first_name", "last_name")
 
 
+class RouteThumbUpSerializer(serializers.ModelSerializer):
+    creation_date = serializers.ReadOnlyField()
+    user = UserInfoSerializer()
+
+    class Meta:
+        model = ThumbUp
+        fields = (
+            "creation_date",
+            "user",
+        )
+
+
 class RouteSerializer(serializers.ModelSerializer):
     map_image = serializers.ImageField(
         source="raster_map.image", write_only=True, required=False
@@ -299,18 +311,6 @@ class UserRouteListSerializer(serializers.ModelSerializer):
             "country",
             "name",
             "is_private",
-        )
-
-
-class RouteThumbUpSerializer(serializers.ModelSerializer):
-    creation_date = serializers.ReadOnlyField()
-    user = UserInfoSerializer()
-
-    class Meta:
-        model = ThumbUp
-        fields = (
-            "creation_date",
-            "user",
         )
 
 
