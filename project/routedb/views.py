@@ -483,8 +483,8 @@ def give_like_view(request, uid):
     )
     if not created:
         like.delete()
-        return {"deleted": True}
-    return {"created": True}
+        return Response({"deleted": True})
+    return Response({"created": True})
 
 
 @api_view(["POST"])
