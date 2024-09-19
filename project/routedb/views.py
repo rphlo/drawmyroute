@@ -476,7 +476,7 @@ def strava_access_token(request):
 @api_view(["POST"])
 @login_required
 def give_like_view(request, uid):
-    route = get_object_or_404(Route, uid=uid)
+    route = get_object_or_404(Route.objects.exclude(athlete=request.user), uid=uid)
     like, created = ThumbUp.objects.get_or_create(
         route_id=route.id,
         user_id=request.user.id,
