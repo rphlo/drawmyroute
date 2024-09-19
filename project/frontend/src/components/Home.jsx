@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import useGlobalState from "../utils/useGlobalState";
 import { capitalizeFirstLetter } from "../utils";
 
-const Home = () => {
+const Home = ({ history }) => {
   const [userData, setUserData] = React.useState(null);
   const globalState = useGlobalState();
   const { api_token, username } = globalState.user;
@@ -78,7 +78,7 @@ const Home = () => {
               <Link to="/new">Upload New Route</Link>
               <br />
               <Link to="/map">Browse Maps</Link>
-              <LatestLikes/>
+              <LatestLikes history={history}/>
             </div>
           </div>
         )}
