@@ -522,7 +522,9 @@ register_tagged_model(Route)
 class ThumbUp(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     route = models.ForeignKey(Route, on_delete=models.CASCADE, related_name="thumbsup")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="thumbsup_given")
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="thumbsup_given"
+    )
 
     class Meta:
         ordering = ["-creation_date"]

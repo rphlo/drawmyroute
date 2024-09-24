@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('routedb', '0023_alter_thumbup_route'),
+        ("routedb", "0023_alter_thumbup_route"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='usersettings',
-            name='date_fetched_likes',
+            model_name="usersettings",
+            name="date_fetched_likes",
             field=models.DateTimeField(blank=True, null=True),
         ),
     ]

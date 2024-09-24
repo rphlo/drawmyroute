@@ -5,10 +5,10 @@ import useGlobalState from "../utils/useGlobalState";
 const LatestLikes = (props) => {
     const [likes, setLikes] = React.useState([]);
     const [opened, setOpened] = React.useState(false);
-    
+
     const globalState = useGlobalState();
     const { api_token } = globalState.user;
-    
+
     React.useEffect(() => {
       if (api_token){
         (async () => {
@@ -34,9 +34,9 @@ const LatestLikes = (props) => {
             }
         );
     };
-    
+
     return <>{ likes.length > 0 ? (<div>
-    <button 
+    <button
         className="btn btn-dark"
         data-toggle="dropdown"
         aria-haspopup="true"
@@ -46,7 +46,7 @@ const LatestLikes = (props) => {
     >{likes.length} new 🏅</button>
     <div className="dropdown-menu">
     { likes.map((l) => (
-        <Link 
+        <Link
            className="dropdown-item"
            to={"/routes/" + l.route.uid }
            key={JSON.stringify(l)}
