@@ -81,7 +81,7 @@ const RouteViewing = (props) => {
         : like.user.username)
     }), ',\n', ',\nand ');
   }, [likes, username]);
-  
+
   useEffect(() => {
     const qp = new URLSearchParams();
     qp.set("m", props.modificationDate);
@@ -122,12 +122,12 @@ const RouteViewing = (props) => {
     );
     setRoute(arch);
   }, [props.route]);
-  
+
   useEffect(() => {
     setLikes(props.thumbsUp);
     ReactTooltip.rebuild();
   }, [props.thumbsUp]);
-  
+
   useEffect(() => {
     var img = new Image();
     img.crossOrigin = "anonymous";
@@ -320,7 +320,7 @@ const RouteViewing = (props) => {
     });
     leafletRoute.setLatLngs(routeLatLng);
   };
-  
+
   const grantMedal = async (e) => {
     e.preventDefault();
     setLikes((l) => [...l, {user: {username}}]);
@@ -336,7 +336,7 @@ const RouteViewing = (props) => {
         }
     );
   }
-  
+
   const saveCropping = async () => {
     const minIdx = Math.floor((croppingRange[0] * route.length) / 100);
     const maxIdx = Math.ceil((croppingRange[1] * route.length) / 100);
