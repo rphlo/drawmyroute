@@ -43,7 +43,7 @@ const LatestLikes = (props) => {
         aria-expanded="false"
         onClick={onOpen}
         type="button"
-    >{likes.length} new 🏅</button>
+    >{likes.length} new <i class="fa fa-medal"></i></button>
     <div className="dropdown-menu">
     { likes.map((l) => (
         <Link
