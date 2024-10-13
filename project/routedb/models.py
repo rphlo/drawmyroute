@@ -56,6 +56,7 @@ class UserSettings(models.Model):
         upload_to=avatar_upload_path, storage=map_storage, null=True
     )
     date_fetched_likes = models.DateTimeField(blank=True, null=True)
+    date_fetched_comments = models.DateTimeField(blank=True, null=True)
 
     @property
     def avatar_data(self):
@@ -528,5 +529,21 @@ class ThumbUp(models.Model):
 
     class Meta:
         ordering = ["-creation_date"]
-        verbose_name = "thumb Up"
+        verbose_name = "thumb up"
         verbose_name_plural = "thumbs up"
+
+
+class Comment(models.Model):
+    creation_date = models.DateTimeField(auto_now_add=True)
+    route = models.ForeignKey(Route, on_delete=models.CASCADE, related_name="comments")
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="comments_given"
+    )
+    message = models.TextField(
+        max_length=1024,
+    )
+
+    class Meta:
+        ordering = ["-creation_date"]
+        verbose_name = "comment"
+        verbose_name_plural = "comments"

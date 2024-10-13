@@ -11,7 +11,7 @@ from django.utils.translation import gettext_lazy as _
 from PIL import Image
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-from routedb.models import RasterMap, Route, ThumbUp, UserSettings
+from routedb.models import Comment, RasterMap, Route, ThumbUp, UserSettings
 from utils.validators import (
     custom_username_validators,
     validate_latitude,
@@ -129,6 +129,19 @@ class RouteThumbUpSerializer(serializers.ModelSerializer):
         )
 
 
+class RouteCommentSerializer(serializers.ModelSerializer):
+    creation_date = serializers.ReadOnlyField()
+    user = UserInfoSerializer()
+
+    class Meta:
+        model = Comment
+        fields = (
+            "creation_date",
+            "message",
+            "user",
+        )
+
+
 class RouteSerializer(serializers.ModelSerializer):
     map_image = serializers.ImageField(
         source="raster_map.image", write_only=True, required=False
@@ -152,6 +165,7 @@ class RouteSerializer(serializers.ModelSerializer):
     start_time = serializers.DateTimeField(required=False)
     is_private = serializers.BooleanField(required=False)
     thumbsup = RouteThumbUpSerializer(many=True, read_only=True)
+    comments = RouteCommentSerializer(many=True, read_only=True)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -283,6 +297,7 @@ class RouteSerializer(serializers.ModelSerializer):
             "route_data",
             "is_private",
             "thumbsup",
+            "comments",
         )
 
 

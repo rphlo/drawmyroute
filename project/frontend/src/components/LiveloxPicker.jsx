@@ -8,7 +8,7 @@ function LiveloxPicker(props) {
 
     const onChangeURL = (e) => {
         const url = e.target.value;
-        setUrlOK(/^https:\/\/www\.livelox\.com\/Viewer\/[^/]+\/[^/]+\?([^&]+&)?classId=(\d+)(&.+)?$/.test(url) || /^https:\/\/([^.]+\.)?tulospalvelu.fi\/(gps\/)?[^/]+\/$/.test(url))
+        setUrlOK(/^https:\/\/www\.livelox\.com\/Viewer\/.+\?([^&]+&)?classId=(\d+)(&.+)?$/.test(url) || /^https:\/\/([^.]+\.)?tulospalvelu.fi\/(gps\/)?[^/]+\/$/.test(url))
     }
 
     const onSubmit = (e) => {
@@ -18,7 +18,7 @@ function LiveloxPicker(props) {
         const formData = new FormData(e.target);
         const url = formData.get("url");
         formData.append('type', 'kmz');
-        const target = /^https:\/\/www\.livelox\.com\/Viewer\/[^/]+\/[^/]+\?([^&]+&)?classId=(\d+)(&.+)?$/.test(url) ? "https://map-download.routechoices.com/api/get-livelox-map" : "https://map-download.routechoices.com/api/get-gpsseuranta-map";
+        const target = /^https:\/\/www\.livelox\.com\/Viewer\/.+\?([^&]+&)?classId=(\d+)(&.+)?$/.test(url) ? "https://map-download.routechoices.com/api/get-livelox-map" : "https://map-download.routechoices.com/api/get-gpsseuranta-map";
         fetch(target, {
             method: "POST",
             body: formData,

@@ -475,6 +475,22 @@ def strava_access_token(request):
 
 @api_view(["POST"])
 @login_required
+def strava_deauthorize(request):
+    user_settings = request.user.settings
+    if user_settings.strava_access_token:
+        token = json.loads(user_settings.strava_access_token)
+        client = StravaClient(token["access_token"])
+        try:
+            client.deauthorize()
+        except Exception:
+            pass
+        user_settings.strava_access_token = None
+        user_settings.save()
+    return Response({})
+
+
+@api_view(["POST"])
+@login_required
 def give_like_view(request, uid):
     route = get_object_or_404(Route.objects.exclude(athlete=request.user), uid=uid)
     like, created = ThumbUp.objects.get_or_create(
@@ -489,18 +505,15 @@ def give_like_view(request, uid):
 
 @api_view(["POST"])
 @login_required
-def strava_deauthorize(request):
-    user_settings = request.user.settings
-    if user_settings.strava_access_token:
-        token = json.loads(user_settings.strava_access_token)
-        client = StravaClient(token["access_token"])
-        try:
-            client.deauthorize()
-        except Exception:
-            pass
-        user_settings.strava_access_token = None
-        user_settings.save()
-    return Response({})
+def give_comment_view(request, uid):
+    route = get_object_or_404(Route.objects.exclude(athlete=request.user), uid=uid)
+    message = request.POST.get("message")
+    comment = Comment.objects.create(
+        route_id=route.id,
+        user_id=request.user.id,
+        message=message,
+    )
+    return Response({"created": True})
 
 
 @api_view(["GET", "POST"])
@@ -523,6 +536,34 @@ def likes_received_view(request):
                 "route": {"name": l.route.name, "uid": l.route.uid},
             }
             for l in likes
+        ]
+    )
+
+
+@api_view(["GET", "POST"])
+@login_required
+def comments_received_view(request):
+    settings, _ = UserSettings.objects.get_or_create(user=request.user)
+    if request.method == "POST":
+        settings.date_fetched_likes = arrow.utcnow().datetime
+        settings.save(update_fields=["date_fetched_likes"])
+        return Response({"ok": "ok"})
+    comments = Comment.objects.select_related("user", "route").filter(
+        route__athlete_id=request.user.id
+    )
+    if since := settings.date_fetched_likes:
+        comments = comments.filter(creation_date__gt=since)
+    return Response(
+        [
+            {
+                "user": UserInfoSerializer(c.user).data,
+                "route": {
+                    "name": c.route.name, 
+                    "uid": c.route.uid,
+                },
+                "message": c.message,
+            }
+            for c in comments
         ]
     )
 
