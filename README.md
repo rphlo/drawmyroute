@@ -3,7 +3,7 @@
 
 # MapDump.com
 
-![screenshot](https://cdn.rphlo.com/mapdump-screenshot.png)
+![screenshot](https://cdn.rphlo.com/screenshots/mapdump.jpg)
 
 A Modern Digital Orienteering Map Archive.
 
