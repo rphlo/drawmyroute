@@ -3,8 +3,6 @@
 
 # MapDump.com
 
-![screenshot](https://cdn.rphlo.com/screenshots/mapdump.jpg)
-
 A Modern Digital Orienteering Map Archive.
 
 The project uses ReactJS for its frontend and the Python Django Framework for its backend.
