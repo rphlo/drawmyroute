@@ -558,7 +558,7 @@ def comments_received_view(request):
             {
                 "user": UserInfoSerializer(c.user).data,
                 "route": {
-                    "name": c.route.name, 
+                    "name": c.route.name,
                     "uid": c.route.uid,
                 },
                 "message": c.message,
