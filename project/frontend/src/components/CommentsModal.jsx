@@ -27,7 +27,7 @@ const CommentsModal = (props) => {
           </div>
           <div className="modal-body" style={{ padding: "40px 50px" }}>
             {props.comments.length === 0 && (<div><b>No Comments</b><hr/></div>)}
-            {props.comments.map((comment) => (
+            {props.comments.reverse().map((comment) => (
               <div key={comment.creation_date}>
                 <span style={{fontWeight: 'bold'}}>{comment.user.username === props.username ? "You" : (comment.user.first_name && comment.user.last_name ?
         capitalizeFirstLetter(comment.user.first_name) +
