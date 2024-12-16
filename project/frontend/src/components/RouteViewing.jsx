@@ -136,7 +136,7 @@ const RouteViewing = (props) => {
   }, [props.thumbsUp]);
 
   useEffect(() => {
-    setLikes(props.comments);
+    setComments(props.comments);
   }, [props.comments]);
 
   useEffect(() => {
@@ -335,7 +335,7 @@ const RouteViewing = (props) => {
   const grantMedal = async (e) => {
     e.preventDefault();
     setLikes((l) => [...l, {user: {username}}]);
-    const response = await fetch(
+    await fetch(
         import.meta.env.VITE_API_URL + "/v1/route/" + props.id + "/like",
         {
           method: "POST",
@@ -443,9 +443,9 @@ const RouteViewing = (props) => {
           onPrivacyChanged={setIsPrivate}
         />
         <div className="mb-3">
-        {likes.length !== 0 && (<><span data-tip data-for="likers"><button type="button" className="font-weight-bold font-italic btn-dark btn">{likes.length} <i class="fa fa-medal"></i></button></span><ReactTooltip place="right" id="likers"><div style={{whiteSpace: "pre"}}>{likers}</div></ReactTooltip></>)}
-        {canLike && (<> <button type="button" className="btn btn-primary" onClick={grantMedal}>Give a medal <i class="fa fa-medal"></i></button></>)}
-        <> <button type="button" className="btn btn-primary" onClick={openComments}>Comments ({comments.length})</button></>
+        {likes.length !== 0 && (<><span data-tip data-for="likers"><button type="button" className="font-weight-bold font-italic btn-dark btn">{likes.length} <i className="fa fa-medal"></i></button></span><ReactTooltip place="right" id="likers"><div style={{whiteSpace: "pre"}}>{likers}</div></ReactTooltip></>)}
+        {canLike && (<> <button type="button" className="btn btn-primary" onClick={grantMedal}>Give a medal <i className="fa fa-medal"></i></button></>)}
+        <> <button type="button" className="btn btn-primary" onClick={openComments}><i className="fa fa-comment"></i> Comments ({comments.length})</button></>
         </div>
         {!cropping && (
           <>
