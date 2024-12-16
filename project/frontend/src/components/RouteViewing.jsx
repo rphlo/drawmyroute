@@ -365,6 +365,7 @@ const RouteViewing = (props) => {
       }
     );
     setComments((c) => [...c, {message: formProps.message, user: {username}}]);
+    e.target.reset();
   }
 
   const saveCropping = async () => {
