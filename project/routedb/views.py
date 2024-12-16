@@ -507,7 +507,7 @@ def give_like_view(request, uid):
 @login_required
 def give_comment_view(request, uid):
     route = get_object_or_404(Route.objects.exclude(athlete=request.user), uid=uid)
-    message = request.DATA.get("message")
+    message = request.data.get("message")
     comment = Comment.objects.create(
         route_id=route.id,
         user_id=request.user.id,
