@@ -3,6 +3,7 @@ import { getCorners } from "../utils/drawHelpers";
 import { saveAs } from "file-saver";
 import RouteHeader from "./RouteHeader";
 import ShareModal from "./ShareModal";
+import CommentsModal from "./CommentsModal";
 import { saveKMZ } from "../utils/fileHelpers";
 import useGlobalState from "../utils/useGlobalState";
 import * as L from "leaflet";
@@ -57,6 +58,8 @@ const RouteViewing = (props) => {
   const [leafletMap, setLeafletMap] = useState(null);
   const [isBoundSet, setIsBoundSet] = useState(null);
   const [likes, setLikes] = useState([]);
+  const [comments, setComments] = useState([]);
+  const [commentsOpen, setCommentsOpen] = useState(false);
   const globalState = useGlobalState();
   const { api_token, username } = globalState.user;
 
@@ -71,6 +74,10 @@ const RouteViewing = (props) => {
   const canLike = useMemo(() => {
     return username && username !== props.athlete.username && !likes.find((like) => like.user.username === username)
   }, [username, props.athlete.username, likes]);
+
+  const canComment = useMemo(() => {
+    return username
+  }, [username]);
 
   const likers = useMemo(() => {
     return joinAnd(likes.map((like) => {
@@ -127,6 +134,10 @@ const RouteViewing = (props) => {
     setLikes(props.thumbsUp);
     ReactTooltip.rebuild();
   }, [props.thumbsUp]);
+
+  useEffect(() => {
+    setLikes(props.comments);
+  }, [props.comments]);
 
   useEffect(() => {
     var img = new Image();
@@ -337,6 +348,25 @@ const RouteViewing = (props) => {
     );
   }
 
+  const onSubmitComment = async (e) => {
+    e.preventDefault()
+    const formData = new FormData(e.target);
+    const formProps = Object.fromEntries(formData);
+    await fetch(
+      import.meta.env.VITE_API_URL + "/v1/route/" + props.id + "/comment",
+      {
+        method: "POST",
+        credentials: "omit",
+        headers: {
+          Authorization: "Token " + api_token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({message: formProps.message})
+      }
+    );
+    setComments((c) => [...c, {message: formProps.message, user: {username}}]);
+  }
+
   const saveCropping = async () => {
     const minIdx = Math.floor((croppingRange[0] * route.length) / 100);
     const maxIdx = Math.ceil((croppingRange[1] * route.length) / 100);
@@ -401,6 +431,9 @@ const RouteViewing = (props) => {
     }
   }, []);
 
+  const openComments = () => {
+    setCommentsOpen(true)
+  }
   return (
     <>
       <div className="container main-container">
@@ -412,6 +445,7 @@ const RouteViewing = (props) => {
         <div className="mb-3">
         {likes.length !== 0 && (<><span data-tip data-for="likers"><button type="button" className="font-weight-bold font-italic btn-dark btn">{likes.length} <i class="fa fa-medal"></i></button></span><ReactTooltip place="right" id="likers"><div style={{whiteSpace: "pre"}}>{likers}</div></ReactTooltip></>)}
         {canLike && (<> <button type="button" className="btn btn-primary" onClick={grantMedal}>Give a medal <i class="fa fa-medal"></i></button></>)}
+        <> <button type="button" className="btn btn-primary" onClick={openComments}>Comments ({comments.length})</button></>
         </div>
         {!cropping && (
           <>
@@ -562,6 +596,15 @@ const RouteViewing = (props) => {
           <ShareModal
             url={"https://mapdu.mp/r/" + props.id}
             onClose={() => setShareModalOpen(false)}
+          />
+        )}
+        {commentsOpen && (
+          <CommentsModal
+            comments={comments}
+            username={username}
+            canComment={canComment}
+            onComment={onSubmitComment}
+            onClose={() => setCommentsOpen(false)}
           />
         )}
       </div>

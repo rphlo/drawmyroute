@@ -73,6 +73,7 @@ const RasterMap = ({ match, history }) => {
           mapSize: rawData.map_size,
           isPrivate: rawData.is_private,
           thumbsUp: rawData.thumbsup,
+          comments: rawData.comments,
         });
         setFound(true);
       } else if (res.status === 404) {
