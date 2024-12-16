@@ -39,7 +39,7 @@ const CommentsModal = (props) => {
               </div>
             ))}
             {props.canComment ? (<form onSubmit={props.onComment}>
-              <textarea className="form-control mb-3" name="message"></textarea>
+              <textarea className="form-control mb-3" name="message" placeholder="Write comment here"></textarea>
               <button className="btn btn-primary">Submit</button>
             </form>) : (<div>Login to comment</div>)}
           </div>
