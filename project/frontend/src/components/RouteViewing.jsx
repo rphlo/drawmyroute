@@ -364,7 +364,7 @@ const RouteViewing = (props) => {
         body: JSON.stringify({message: formProps.message})
       }
     );
-    setComments((c) => [...c, {message: formProps.message, user: {username}}]);
+    setComments((c) => [{message: formProps.message, user: {username}}, ...c]);
     e.target.reset();
   }
 

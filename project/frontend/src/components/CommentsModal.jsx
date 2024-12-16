@@ -2,7 +2,7 @@ import React from "react";
 import { capitalizeFirstLetter } from "../utils";
 
 const CommentsModal = (props) => {
-
+  const comments = props.comments.reverse();
   return (
     <div
       className="modal"
