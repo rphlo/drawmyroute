@@ -1,6 +1,8 @@
 import React from "react";
 import { capitalizeFirstLetter } from "../utils";
 
+import { LinkItUrl, LinkIt } from "react-linkify-it";
+
 const CommentsModal = (props) => {
   const comments = props.comments.toReversed();
   return (
@@ -34,7 +36,8 @@ const CommentsModal = (props) => {
         " " +
         capitalizeFirstLetter(comment.user.last_name)
         : comment.user.username)}</span>
-                <p>{comment.message}</p>
+                <p>
+                  <LinkItUrl>{comment.message}</LinkItUrl></p>
                 <hr/>
               </div>
             ))}
