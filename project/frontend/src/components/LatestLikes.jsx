@@ -43,14 +43,14 @@ const LatestLikes = (props) => {
         aria-expanded="false"
         onClick={onOpen}
         type="button"
-    >{likes.length} new <i class="fa fa-medal"></i></button>
+    >{likes.length} new <i className="fa fa-hands-clapping" /></button>
     <div className="dropdown-menu">
     { likes.map((l) => (
         <Link
            className="dropdown-item"
            to={"/routes/" + l.route.uid }
            key={JSON.stringify(l)}
-        >{l.user.username} gave you a medal for {l.route.name}</Link>)
+        >{l.user.username} clapped for {l.route.name}</Link>)
       )
     }
     </div></div>) : (<></>) }</>
