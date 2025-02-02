@@ -135,8 +135,8 @@ const drawRoute = async (
     Math.round(img.height)
   );
 
-  const outlineWidth = 2 / resolution;
-  const weight = 4 / resolution;
+  const outlineWidth = Math.max(2, 2 / resolution);
+  const weight = Math.max(4, 4 / resolution);
 
   const speeds = extractSpeed(route);
 
