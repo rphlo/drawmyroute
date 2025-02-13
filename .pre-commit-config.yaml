@@ -30,7 +30,7 @@ repos:
     rev: v4.0.0-alpha.8
     hooks:
     -   id: prettier
-        exclude: ^static_assets/vendor/
+        exclude: ^project/frontend/public/static/vendor/
         types_or:
         - css
         - javascript

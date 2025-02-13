@@ -24,7 +24,7 @@ from rest_framework.decorators import api_view
 from rest_framework.pagination import CursorPagination
 from rest_framework.permissions import SAFE_METHODS, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
-from routedb.models import RasterMap, Route, ThumbUp, UserSettings, Comment
+from routedb.models import Comment, RasterMap, Route, ThumbUp, UserSettings
 from routedb.serializers import (
     AuthTokenSerializer,
     EmailSerializer,
@@ -508,7 +508,7 @@ def give_like_view(request, uid):
 def give_comment_view(request, uid):
     route = get_object_or_404(Route.objects.exclude(athlete=request.user), uid=uid)
     message = request.data.get("message")
-    comment = Comment.objects.create(
+    Comment.objects.create(
         route_id=route.id,
         user_id=request.user.id,
         message=message,
@@ -532,10 +532,10 @@ def likes_received_view(request):
     return Response(
         [
             {
-                "user": UserInfoSerializer(l.user).data,
-                "route": {"name": l.route.name, "uid": l.route.uid},
+                "user": UserInfoSerializer(like.user).data,
+                "route": {"name": like.route.name, "uid": like.route.uid},
             }
-            for l in likes
+            for like in likes
         ]
     )
 
